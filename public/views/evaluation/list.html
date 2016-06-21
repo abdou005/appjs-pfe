@@ -1,0 +1,262 @@
+<style>
+    .rating{
+        color: #a9a9a9;
+        margin: 0;
+        padding: 0;
+    }
+
+    ul.rating {
+        display: inline-block;
+    }
+
+    .rating li {
+        list-style-type: none;
+        display: inline-block;
+        padding: 1px;
+        text-align: center;
+        font-weight: bold;
+        cursor: pointer;
+    }
+
+    .rating .filled {
+        color: #1ABB9C;
+    }
+    .thumbUpload {
+        width: 75px;
+        height: 75px;
+        float: none;
+        position: relative;
+        top: 2px;
+    }
+
+    form .progressUpload {
+        line-height: 15px;
+    }
+
+    .progressUpload {
+        display: inline-block;
+        width: 100px;
+        border: 3px groove #CCC;
+    }
+
+    .progressUpload div {
+        font-size: smaller;
+        background: orange;
+        width: 0;
+    }
+</style>
+<div class="row">
+    <div class="col-md-12 col-sm-12 col-xs-12">
+        <div class="x_panel">
+            <div class="x_title">
+                <h2>ÉVALUEZ UN ARTISAN DU BÂTIMENT <small>et aidez les autres membres à trouver l'artisan parfait !</small></h2>
+                <ul class="nav navbar-right panel_toolbox">
+                    AVIS PROTÉGÉS ET ENCADRÉS
+                </ul>
+                <div class="clearfix"></div>
+            </div>
+            <div class="x_content">
+                <div class="row">
+                    <div class="col-md-12 col-sm-12 col-xs-12">
+                        <div class="profile_title">
+                            <div class="col-md-3 col-sm-12 col-xs-12">
+                            </div>
+                            <div class="col-md-6 col-sm-12 col-xs-12">
+                                <div class="input-group" style="margin-top: 3px; background: #1ABB9C; padding: 2px; border: 1px solid #E6E9ED">
+                                    <input type="text" class="form-control" ng-model="searchTxt" placeholder="Ex : Entreprise ou 134 4587">
+											  <span class="input-group-btn">
+												<button class="btn btn-warning" type="button">Rechercher</button>
+											  </span>
+                                </div><!-- /input-group -->
+                            </div>
+                            <div class="col-md-3 col-sm-12 col-xs-12">
+                            </div>
+                        </div>
+                        <div class="clear"></div>
+                        <h3 class="green" align="center"><i class="fa fa-group"></i> Quel artisan souhaitez-vous noter ?</h3>
+                        <div class="col-md-4 col-sm-4 col-xs-12 animated fadeInDown" ng-repeat="p in prestataires | filter:searchTxt" ng-if="p.typeUser == 'artisan'">
+                            <div class="well profile_view">
+                                <div class="col-sm-12">
+                                    <div class="left col-xs-7">
+                                        <p><i ng-show="false">{{p.email}}</i>{{p.firstname}}  {{p.lastname}}</p>
+                                        <p><strong>About: </strong> <span> {{p.specialites[0].name}}... </span>
+                                            <span ng-show="false" ng-repeat=" spc in p.specialites "> {{spc.name}} </span>
+                                        </p>
+                                        <ul class="list-unstyled">
+                                            <li><i class="fa fa-mobile-phone"></i> {{p.telDomi}} </li>
+                                            <li><i class="fa fa-phone"></i> {{p.telMobil}} </li>
+                                        </ul>
+                                    </div>
+                                    <div class="right col-xs-5 text-center">
+                                        <img src="{{p.mediaProfil.urlMedia}}" alt="" class="img-circle img-responsive" style="height: 100px;">
+                                    </div>
+                                </div>
+                                <div class="col-xs-12 bottom text-center">
+                                    <div class="col-xs-12 col-sm-6 emphasis">
+                                        <p class="ratings">
+                                            <a>{{p.noteGlobal | number:1}}</a>
+                                            <span notegeneral-rating rating-value="p.noteGlobal" data-max="5"></span>
+                                        </p>
+                                    </div>
+                                    <div class="col-xs-12 col-sm-6 emphasis">
+                                        <button type="button" class="btn btn-warning btn-xs" title="Evaluer" data-original-title="Evaluer ce prestataire" data-toggle="modal" data-target=".bs-example-modal-lg" ng-click="getPrestataire(p)"> <i class="fa fa-star">
+                                        </i> Évaluer </button>
+                                        <a  class="btn btn-primary btn-xs" href="/prestataire/{{p._id}}" title="Voir Profil"> <i class="fa fa-user">
+                                        </i>  </a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Large modal -->
+                    <div class="modal fade bs-example-modal-lg" tabindex="-1" role="dialog" aria-hidden="true" style="display: none;">
+                        <div class="modal-dialog modal-lg">
+                            <form class="form-horizontal form-label-left" name="formAvis" novalidate>
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">×</span>
+                                    </button>
+                                    <h4 class="modal-title" id="myModalLabel">Modal title</h4>
+                                </div>
+                                <p> nombre de mission pour ce praistatire = {{prestataire.missions.length}}</p>
+                                <hr>
+                                <div class="modal-body">
+                                    <h4>Text in a modal</h4>
+                                    <div ng-show="showError" class="alert alert-danger alert-dismissible fade in" role="alert">
+                                        <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">×</span>
+                                        </button>
+                                        <strong>Desole!</strong> Vous avez  aucun devis pour ce prestataire.
+                                        <p>non autorisé</p>
+                                    </div>
+
+                                    <div ng-show="showDevis" class="alert alert-success alert-dismissible fade in" role="alert">
+                                        <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">×</span>
+                                        </button>
+                                        <strong>Merci!</strong> Vous avez {{listMission.length}} devis pour ce praistataire.
+                                        <p>Vous pouvez choisir parmit les devis que vous voulez l'evaluer</p>
+                                    </div>
+                                    <hr>
+                                    <p>{{listMission.length}} mission(s)</p>
+                                    <div ng-show="showDevis" class="col-md-12 col-sm-12 col-xs-12">
+                                        <div class="col-md-3" ng-repeat="m in listMission" >
+                                            <div class="thumbnail">
+                                                <div class="image view view-first">
+                                                    <img ng-repeat="media in m.devis.medias" style="width: 100%; height: 100%; display: block;" src="{{media.urlMedia}}" alt="image" />
+                                                    <div class="mask">
+                                                        <p>{{m.devis.title}}</p>
+                                                        <div class="tools tools-bottom">
+                                                            <a href="#"><i class="fa fa-link"></i></a>
+                                                            <a href="#"><i class="fa fa-pencil"></i></a>
+                                                            <a href="#"><i class="fa fa-times"></i></a>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="caption">
+                                                    <p> Cette Mission est<span class="label label-warning" ng-if="m.state[0] == 'inruns'"> en Cours</span>
+                                                        <span  class="label label-success" ng-if="m.state[0] == 'finish'"> Terminer</span>
+                                                        <label ng-if="m.state[0] == 'finish' && m.avis == null" class="btn btn-warning active" data-toggle-class="btn-primary" data-toggle-passive-class="btn-default" ng-click="getMission(m)">
+                                                            <input type="radio" name="missionTemp" ng-model="missionTemp" value="{{m._id}}" />
+                                                        </label>
+                                                    </p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div ng-show="showFormulaireEvaluer" class="col-md-12 col-sm-12 col-xs-12">
+
+                                        <h3 class="green" align="center"><i class="fa fa-user"></i>Donnez votre avis sur le prestataire {{prestataire.firstname}}{{prestataire.lastname}}</h3>
+                                            <div class="form-group">
+                                                <label class="control-label col-md-3 col-sm-3 col-xs-12" for="noteGlobal">Note générale :
+                                                    <br>
+                                                    <small>Cliquez sur les étoiles pour noter</small>
+                                                </label>
+                                                <div class="col-md-6 col-sm-6 col-xs-12" id="noteGlobal" align="center" style="font-size: medium;">
+                                                    <div ng-init="ratingNoteGeneral = star.ratingNoteGeneral + 1"></div>
+                                                    <div notegeneral-rating rating-value="ratingNoteGeneral" data-max="5" on-rating-selected="rateFunction(ratingNoteGeneral)"></div>
+                                                    {{ratingNoteGeneral}}
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <label class="control-label col-md-3 col-sm-3 col-xs-12" for="noteGlobal">Notes :
+                                                </label>
+                                                <div class="col-md-6 col-sm-6 col-xs-12">
+                                                    <div class="col-md-6 col-sm-6 col-xs-12" align="center">
+                                                        <div ng-init="ratingQualityServ = star.ratingQualityServ + 1"></div>
+                                                        <div qualityservice-rating rating-value="ratingQualityServ" data-max="5" on-rating-selected="rateFunction(ratingQualityServ)"></div>
+                                                        {{ratingQualityServ}}
+                                                        <small>Qualité des travaux</small>
+                                                    </div>
+                                                    <div class="col-md-6 col-sm-6 col-xs-12" align="center">
+                                                        <div ng-init="ratingPriceServ = star.ratingPriceServ + 1"></div>
+                                                        <div priceservice-rating rating-value="ratingPriceServ" data-max="5" on-rating-selected="rateFunction(ratingPriceServ)"></div>
+                                                        {{ratingPriceServ}}
+                                                        <small>Prix des travaux</small>
+                                                    </div>
+                                                    <div class="col-md-6 col-sm-6 col-xs-12" align="center">
+                                                        <div ng-init="ratingRespectPeriod = star.ratingRespectPeriod + 1"></div>
+                                                        <div respectperiod-rating rating-value="ratingRespectPeriod" data-max="5" on-rating-selected="rateFunction(ratingRespectPeriod)"></div>
+                                                        {{ratingRespectPeriod}}
+                                                        <small>Respect des délais</small>
+                                                    </div>
+                                                    <div class="col-md-6 col-sm-6 col-xs-12" align="center">
+                                                        <div ng-init="ratingContact = star.ratingContact + 1"></div>
+                                                        <div contact-rating rating-value="ratingContact" data-max="5" on-rating-selected="rateFunction(ratingContact)"></div>
+                                                        {{ratingContact}}
+                                                        <small>Qualité de contact</small>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <label class="control-label col-md-3 col-sm-3 col-xs-12" for="desc">Commentaire : <span class="required" ng-show="formAvis.desc.$error.required" style="color:red;">*</span>
+                                                    <br>
+                                                    <small>30 caractères minimum</small>
+                                                </label>
+                                                <div class="col-md-6 col-sm-6 col-xs-12" id="desc">
+                                                    <textarea class="form-control" rows="5" name="desc" ng-model="avis.desc" placeholder='En partageant votre expérience, vous aidez les autres visiteurs à faire le bon choix!' ng-minlength="30" required></textarea>
+                                                </div>
+                                                <i class="fa fa-ban" ng-show="formAvis.desc.$error.required" style="color:red;"> required</i>
+                                                <i class="fa fa-ban" ng-show="formAvis.desc.$error.minlength" style="color:red;"> 30 minimum</i>
+                                            </div>
+                                        <div class="form-group">
+                                            <label class="control-label col-md-3 col-sm-3 col-xs-12" for="photoAvis">Facture <span class="required" ng-show="formAvis.desc.$error.required" style="color:red;">*</span>
+                                                <br>
+                                                <small>Cette étape est facultative, mais permet d'ajouter une sécurité</small>
+                                            </label>
+                                            <div class="col-md-6 col-sm-6 col-xs-12" id="photoAvis">
+                                                    <input type="file" ngf-select ng-model="file1" name="file1"
+                                                           ngf-pattern="'image/*'" accept="image/*" ngf-max-size="2MB"
+                                                           ngf-model-invalid="errorFile">
+                                                    <i ng-show="formAvis.file1.$error.maxSize" style="color:red;">File too large
+                                                        {{errorFile.size / 1000000|number:1}}MB: max 2M</i>
+                                                <img ng-show="formAvis.file1.$valid" ngf-thumbnail="file1" class="thumbUpload">
+                                                <br/>
+                                                <button class="btn btn-danger btn-xs btnTrash" ng-click="file1 = null" ng-show="file1"><i class="fa fa-trash-o"></i></button>
+                                                <br/>
+                                                <span class="progressUpload" ng-show="file1.progress >= 0">
+                                                            <div style="width:{{file1.progress}}%" ng-bind="file1.progress + '%'">
+                                                            </div>
+                                                        </span>
+                                                <span ng-show="file1.result">Upload Successful</span>
+                                                <span class="err" ng-show="errorMsg1" style="color:red;">{{errorMsg1}}</span>
+                                            </div>
+                                        </div>
+                                        <input type="hidden" ng-model="missionTemp._id" name="missionTempId" required/>
+                                    </div>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-default" data-dismiss="modal" ng-click="deselect()">Close</button>
+                                    <button type="submit" class="btn btn-primary" ng-click="evaluer()" ng-disabled="formAvis.$invalid">Envoyer Votre Avis</button>
+                                </div>
+                            </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+

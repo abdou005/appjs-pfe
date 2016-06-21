@@ -1,0 +1,178 @@
+<div class="contanier">
+    <div class="header">
+        <ul class="nav nav-pills">
+            <li active><a href=""></a></li>
+            <li disabled><a href=""></a></li>
+        </ul>
+    </div>
+    <!-- Map and Side Panel -->
+    <div class="row">
+        <div class="col-md-7">
+            <div id="map" style="width:645px; height:645px"></div>
+        </div>
+        <!-- Side Panel -->
+        <div class="col-md-5">
+            <div class="panel panel-default">
+                <!-- Panel Title -->
+                <div class="panel-heading">
+                    <h2 class="panel-title text-center">Ajouter une adresse <span class="glyphicon glyphicon-map-marker"></span></h2>
+                </div>
+                <!-- Panel Body -->
+                <div class="panel-body">
+                    <!-- Creates Form (novalidate disables HTML validation, Angular will control) -->
+                    {{adresse}}
+                    <form name ="addForm" novalidate>
+                        <!-- Text Boxes and Other User Inputs. Note ng-model binds the values to Angular $scope -->
+                        <div class="form-group">
+                            <label for="name">Lieu </label>
+                            <input type="text" ng-keypress="getLocation()"  class="form-control" id="name" placeholder="Lieu" ng-model="adresse.lieu" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="dep">Dep</label>
+                            <input type="text" class="form-control" id="dep" placeholder="Dep" ng-model="adresse.dep" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="region">Region</label>
+                            <input type="text" class="form-control" id="region" placeholder="Region" ng-model="adresse.region" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="latitude">Latitude</label>
+                            <input type="text" class="form-control" id="latitude"  ng-model="adresse.latitude" >
+                        </div>
+                        <div class="form-group">
+                            <label for="longitude">Longitude</label>
+                            <input type="text" class="form-control" id="longitude"  ng-model="adresse.longitude" >
+                        </div>
+                        <div class="form-group">
+                            <label for="codePostal">codePostal</label>
+                            <input type="text" class="form-control" id="codePostal" placeholder="codePostal" ng-model="adresse.codePostal" >
+                        </div>
+                        <div class="form-group">
+                            <label for="InterventionArea">Intervention</label>
+                            <input type="number" class="form-control" id="InterventionArea" placeholder="Intervention Area" ng-model="adresse.InterventionArea" >
+                        </div>
+                        <div class="form-group">
+                            <label for="verified">HTML5 Verified Location? <span><button class="btn btn-default btn-xs"><span class="glyphicon glyphicon-refresh"></span></button></span></label>
+                            <input type="text" class="form-control" id="verified" placeholder= "Nope (Thanks for spamming my map...)" ng-model="adresse.htmlverified" readonly>
+                        </div>
+                        <!-- Submit button. Note that its tied to createUser() function from addCtrl. Also note ng-disabled logic which prevents early submits.  -->
+                        <button type="submit" class="btn btn-danger btn-block" ng-click="createAdresse()" ng-disabled="addForm.$invalid">Submit</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <p style="color: red;">{{error_message}}</p>
+        <p style="color: green;">{{message}}</p>
+        <div class="col-md-12 col-xs-12">
+            <div class="x_panel">
+                <div class="x_title">
+                    <h2>Mes adresses</h2>
+                    <ul class="nav navbar-right panel_toolbox">
+                        <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+                        </li>
+                        <li class="dropdown">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"><i class="fa fa-wrench"></i></a>
+                            <ul class="dropdown-menu" role="menu">
+                                <li><a href="#">Settings 1</a>
+                                </li>
+                                <li><a href="#">Settings 2</a>
+                                </li>
+                            </ul>
+                        </li>
+                        <li><a class="close-link"><i class="fa fa-close"></i></a>
+                        </li>
+                    </ul>
+                    <div class="clearfix"></div>
+                </div>
+                <div class="x_content">
+                    <div class="row">
+
+                        <div class="col-md-6">
+                            <form class="form-inline">
+                                <div class="form-group">
+                                    <label for="ex3">Show</label>
+                                    <select class="form-control input-sm" ng-model="entries">
+                                        <option value="1">1</option>
+                                        <option value="2">2</option>
+                                        <option value="10">10</option>
+                                        <option value="25">25</option>
+                                        <option value="50">50</option>
+                                        <option value="100">100</option>
+                                    </select>
+                                    entries
+                                </div>
+                            </form>
+                        </div>
+                        <div class="col-md-6 " >
+                            <form class="form-inline">
+                                <div class="form-group pull-right">
+                                    <label for="ex3">Search all columns:</label>
+                                    <input type="text" id="ex3" class="form-contro input-sml" placeholder="" ng-model="searchTxt">
+                                </div>
+                            </form>
+                        </div>
+
+                    </div>
+                    <div style="padding: 10px;"></div>
+                    <div class="row">
+                        <table id="example" class="table table-striped responsive-utilities jambo_table">
+                            <thead>
+                            <tr class="headings">
+                                <th>
+                                    <input type="checkbox" class="tableflat">
+                                </th>
+                                <th>lieu</th>
+                                <th>dep</th>
+                                <th>region</th>
+                                <th>latlng</th>
+                                <th>zone</th>
+                                <th class=" no-link last"><span class="nobr">Action</span>
+                                </th>
+                            </tr>
+                            </thead>
+
+                            <tbody>
+                            <tr ng-repeat=" a in current_user.adresses | filter:searchTxt | limitTo:entries">
+                                <td class="a-center ">
+                                    <a href="" class="btn btn-default btn-xs" ng-click="setDefault(a)" ng-disabled="a.isDefault"><i class="fa fa-archive"></i> Default </a>
+                                </td>
+                                <td class=" ">{{a.lieu}}</td>
+                                <td class=" "> {{a.dep}}</td>
+                                <td class=" ">{{a.region}}</td>
+                                <td class=" ">
+                                    {{a.location}}
+                                </td>
+                                <td class=" "> {{a.InterventionArea}} </td>
+                                <td class=" last">
+                                    <a href="" class="btn btn-warning btn-xs" ng-click="editAdresse(a)"><i class="fa fa-pencil" ></i> Edit </a>
+                                    <a href="" class="btn btn-danger btn-xs" ng-click="removeAdresse(a)"><i class="fa fa-trash-o" ></i> Delete </a></a>
+                                </td>
+                            </tr>
+                            </tbody>
+
+                        </table>
+                        <div class="row">
+                            <div class="dataTables_paginate paging_full_numbers" id="example_paginate">
+                                <a tabindex="0" class="first paginate_button paginate_button_disabled" id="example_first">First</a>
+                                <a tabindex="0" class="previous paginate_button paginate_button_disabled" id="example_previous">Previous</a>
+                                                <span>
+                                                    <a tabindex="0" class="paginate_active">1</a>
+                                                    <a tabindex="0" class="paginate_button">2</a>
+                                                    <a tabindex="0" class="paginate_button">3</a>
+                                                    <a tabindex="0" class="paginate_button">4</a>
+                                                </span>
+                                <a tabindex="0" class="next paginate_button" id="example_next">Next</a>
+                                <a tabindex="0" class="last paginate_button" id="example_last">Last</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+

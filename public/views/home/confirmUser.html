@@ -1,0 +1,243 @@
+<style>
+    .rating{
+        color: #a9a9a9;
+        margin: 0;
+        padding: 0;
+    }
+
+    ul .rating {
+        display: inline-block;
+    }
+
+    .rating li {
+        list-style-type: none;
+        display: inline-block;
+        padding: 1px;
+        text-align: center;
+        font-weight: bold;
+        cursor: pointer;
+    }
+    .rating .filled {
+        color: #1ABB9C;
+    }
+</style>
+<div class="row">
+    <div class="col-md-12 col-sm-12 col-xs-12">
+        <div class="x_panel">
+            <div class="x_title">
+                <h2>Verifier les prestataires<small> Documents</small></h2>
+                <ul class="nav navbar-right panel_toolbox">
+                    <li><a href="#"><i class="fa fa-chevron-up"></i></a>
+                    </li>
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"><i class="fa fa-wrench"></i></a>
+                        <ul class="dropdown-menu" role="menu">
+                            <li><a href="#">Settings 1</a>
+                            </li>
+                            <li><a href="#">Settings 2</a>
+                            </li>
+                        </ul>
+                    </li>
+                    <li><a href="#"><i class="fa fa-close"></i></a>
+                    </li>
+                </ul>
+                <div class="clearfix"></div>
+            </div>
+            <div class="x_content">
+                <div class="col-md-12 col-sm-12 col-xs-12">
+                    <div class="profile_title">
+                        <div class="col-md-6">
+                            <h2></h2>
+                        </div>
+                        <div class="col-md-6">
+                            <div id="reportrange1" class="pull-right" style="margin-top: 5px; background: #fff; cursor: pointer; padding: 5px 10px; border: 1px solid #E6E9ED">
+                                <i class="glyphicon glyphicon-calendar fa fa-calendar"></i>
+                                <span>March 20, 2016 - April 18, 2016</span> <b class="caret"></b>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="clear"></div>
+                </div>
+                <div class="col-md-12 col-sm-12 col-xs-12" ng-show="showuser">
+                    <div class="col-md-4 col-sm-4 col-xs-12 animated fadeInDown">
+                        <div class="well profile_view">
+                            <div class="col-sm-12">
+                                <div class="left col-xs-7">
+                                    <p>{{user.firstname}}  {{user.lastname}}</p>
+                                    <ul class="list-unstyled">
+                                        <li><i class="fa fa-mobile-phone"></i> {{user.telDomi}} </li>
+                                        <li><i class="fa fa-phone"></i> {{user.telMobil}} </li>
+                                        <li> <button type="button" class="btn btn-warning btn-xs" title="Ajouter Docs"  ng-click="showFormDocs()"> <i class="fa fa-folder-open">
+                                        </i></button></li>
+                                    </ul>
+                                </div>
+                                <div class="right col-xs-5 text-center">
+                                    <img src="{{user.mediaProfil.urlMedia}}" alt="" class="img-circle img-responsive">
+                                </div>
+                            </div>
+                            <div class="col-xs-12 bottom text-center">
+                            </div>
+
+                        </div>
+                    </div>
+                    <div class="col-md-8 col-sm-8 col-xs-12 animated fadeInDown" ng-show="showDocs">
+                        <h3 class="green" align="center"><i class="fa fa-file-archive-o"></i> Ajouter Un Document</h3>
+                        <form class="form-horizontal form-label-left" name="formDocs" novalidate>
+                            <div class="form-group">
+                                <label class="control-label col-md-2 col-sm-2 col-xs-12">Format <span class="required">*</span></label>
+                                <div class="col-md-4 col-sm-4 col-xs-12">
+                                    <input type="text" class="form-control" placeholder="Nom" ng-model="document.format"  required>
+                                </div>
+
+                                <label class="control-label col-md-2 col-sm-2 col-xs-12">Type <span class="required">*</span></label>
+                                <div class="col-md-4 col-sm-4 col-xs-12">
+                                    <select class="form-control" ng-model="document.type" required>
+                                        <option value="cin">CIN</option>
+                                        <option value="patente">Patente</option>
+                                        <option value="autre">Autre</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="control-label col-md-2 col-sm-2 col-xs-12">Description <span class="required">*</span></label>
+                                <div class="col-md-4 col-sm-4 col-xs-12">
+                                     <textarea class="form-control" rows="2" placeholder="Description" ng-model="document.desc" required></textarea>
+                                </div>
+                                <div class="col-md-3 col-sm-3 col-xs-12">
+                                        <button type="submit" class="btn btn-danger btn-block" title="Ajouter Docs"  ng-click="createDocs()" ng-disabled="formDocs.$invalid"><i class="fa fa-edit">
+                                        </i>Ajouter</button>
+                                </div>
+                                <div class="col-md-3 col-sm-3 col-xs-12">
+                                        <button type="reset" class="btn btn-info btn-block" title="Reset"  ng-click="deselect()"><i class="fa fa-trash">
+                                        </i>Cancel</button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                    <div class="col-md-12 col-sm-12 col-xs-12 animated fadeInDown" ng-show="showDocs">
+                        <h3 class="green" align="center"><i class="fa fa-signal"></i> Etat des Documents</h3>
+                        <table class="table table-striped projects">
+                            <thead>
+                            <tr>
+                                <th style="width: 20%">type</th>
+                                <th style="width: 20%"></th>
+                                <th style="width: 15%">Etat</th>
+                                <th style="width: 35%">Document</th>
+                                <th style="width: 10%">#Action</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr ng-repeat="document in user.documents"  ng-class="isActiveDocs(document.state)">
+                                <td>
+                                        <a href="#" ng-click="getPrestataire(u._id)">{{document.type[0]}}</a>
+                                        <br>
+                                        <span><small>Format : </small>{{document.format}}</span>
+                                    <a href="#" ng-if="!document.state" class="btn btn-info btn-xs" ng-click="confirmeDocs(document)"><i class="fa fa-pencil"></i>Confirmer</a>
+                                </td>
+                                <td>
+                                    <span>{{document.name}}</span>
+                                    <p>{{document.desc}}</p>
+                                </td>
+                                <td class="project_progress">
+                                    <div class="progress progress_sm">
+                                        <div ng-hide="document.state" class="progress-bar bg-orange" role="progressbar" data-transitiongoal="57" aria-valuenow="56" style="width: 50%;" ></div>
+                                        <div ng-show="document.state" class="progress-bar bg-green" role="progressbar" data-transitiongoal="57" aria-valuenow="56" style="width: 100%;" ></div>
+                                    </div>
+                                    <small ng-hide="document.state">50% Complete</small>
+                                    <small ng-show="document.state">100% Complete</small>
+                                    <span class="label label-warning" ng-hide= "document.state">En Cours</span>
+                                    <span class="label label-success" ng-show= "document.state">Terminer</span>
+                                </td>
+                                <td>
+                                   <img src="{{document.urlDoc}}" alt="Image Doc" ng-style="styleDocs(document.type[0])">
+                                </td>
+                                <td>
+                                    <a href="" class="btn btn-danger btn-xs" ng-click="removeDocs(document._id)"><i class="fa fa-trash-o" ></i> Delete </a>
+                                </td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <div class="col-md-12">
+                    <!-- start project list -->
+                    <table class="table table-striped projects">
+                        <thead>
+                        <tr>
+                            <th style="width: 25%">Coordonnées</th>
+                            <th style="width: 20%"></th>
+                            <th style="width: 15%">Etat</th>
+                            <th style="width: 30%">Specialites</th>
+                            <th style="width: 10%">#Action</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr ng-repeat="u in users" ng-if="u.typeUser[0] == 'artisan'" ng-class="isActive(u.confirmer)">
+                            <td>
+                                <a href="#" ng-click="getPrestataire(u._id)">{{u.firstname}} {{u.lastname}}</a>
+                                <br>
+                                <span>
+                                    <i class="fa fa-map-marker user-profile-icon"></i>
+                                    <small ng-repeat=" adr in u.adresses" ng-if="adr.isDefault"> {{adr.lieu}} {{adr.codePostal}}</small>
+                                </span>
+                                <br>
+                                <small><i class="fa fa-calendar"></i> {{u.created_at | date : format : timezone}}</small>
+                                <br>
+                                <span><small>Status : </small>{{u.statut[0]}}</span>
+                                <br>
+                                <span><small>Type : </small>{{u.type[0]}}</span>
+                                <br>
+                                <span><small>Effectif : </small>{{u.effectif}}</span>
+                            </td>
+                            <td>
+                                <ul class="list-inline">
+                                    <li>
+                                        <img src="{{u.mediaProfil.urlMedia}}" class="avatar" alt="Avatar">
+                                    </li>
+                                    <li>
+                                        <span notegeneral-rating rating-value="u.noteGlobal" data-max="5"></span>
+                                    </li>
+                                </ul>
+                                <span><small>{{u.email}}</small></span>
+                                <br>
+                                <span><i class="fa fa-mobile-phone"></i> {{u.telMobil}}</span>
+                                <br>
+                                <span><i class="fa fa-phone"></i> {{u.telDomi}} </span>
+                                <br>
+                                <span><small>Experience :</small> {{u.dateDebut | date : format : timezone}} </span>
+                                <br>
+                            </td>
+                            <td class="project_progress">
+                                <div class="progress progress_sm">
+                                    <div ng-hide="u.confirmer" class="progress-bar bg-orange" role="progressbar" data-transitiongoal="57" aria-valuenow="56" style="width: 50%;" ></div>
+                                    <div ng-show="u.confirmer" class="progress-bar bg-green" role="progressbar" data-transitiongoal="57" aria-valuenow="56" style="width: 100%;" ></div>
+                                </div>
+                                <small ng-hide="u.confirmer">50% Complete</small>
+                                <small ng-show="u.confirmer">100% Complete</small>
+                                <span class="label label-warning" ng-hide="u.confirmer">En Cours</span>
+                                <span class="label label-success" ng-show="u.confirmer">Terminer</span>
+                            </td>
+                            <td>
+                                <a ng-repeat="s in u.specialites" href="" class="btn btn-default btn-xs">
+                                    <i class="fa fc-agenda-view" ></i> {{s.name}}
+                                </a>
+                            </td>
+                            <td>
+                                <a class="btn btn-primary btn-xs" ng-if="u.confirmer" ng-click="getPrestataire(u._id)"><i class="fa fa-user"></i>Consulter</a>
+                                <a class="btn btn-warning btn-xs" ng-if="!u.confirmer" ng-click="getPrestataire(u._id)"><i class="fa fa-tags"></i>Ajouter Documents</a>
+                               <p ng-if="!u.confirmer">
+                                   <strong>{{u.documents.length}}</strong> <span>Documents pour ce prestataire</span>
+                                   <br>
+                                   <strong ng-bind="getDocAdd(u.documents)"> </strong> <span>Ajoutes</span>
+                               </p>
+                                <a href="#" ng-if="!u.confirmer" class="btn btn-info btn-xs" ng-click="confirmeUser(u)"><i class="fa fa-pencil"></i>Confirmer</a>
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+                    <!-- end project list -->
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,102 @@
+<div class="" style="background:#F7F7F7;" ng-controller="loginCtrl" ng-hide="authenticated">
+    <a class="hiddenanchor" id="toregister"></a>
+    <a class="hiddenanchor" id="tologin"></a>
+    <br/>
+    <div class="row">
+        <div class="col-lg-6">
+            <p>{{user}}</p>
+        </div>
+        <div class="col-lg-6">
+            <p style="color: red;">{{error_message}}</p>
+            <p style="color: green;">{{message}}</p>
+        </div>
+    </div>
+    <div id="wrapper">
+        <div id="login" class="animate form">
+            <section class="login_content">
+                <form name="loginForm" novalidate>
+                    <h1>Login Form</h1>
+                    <div>
+                        <input type="email" class="form-control" placeholder="Email" name="email" ng-model="user.email" required/>
+                    </div>
+                    <div>
+                        <input type="password" class="form-control" placeholder="Password" name="password" ng-model="user.password" required/>
+                    </div>
+                    <div>
+                        <button type="submit" class="btn btn-default btn-sm" ng-click="loginUser()" ng-disabled="loginForm.$invalid">Log in</button>
+                        <button type="reset" class="btn btn-info btn-sm" ng-click="deselect()">cancel</button>
+                        <a class="reset_pass" href="#">Lost your password?</a>
+                    </div>
+                    <div class="clearfix"></div>
+                    <div class="separator">
+                        <p class="change_link">New to site?
+                            <a href="#toregister" class="to_register"> Create Account </a>
+                        </p>
+                        <div class="clearfix"></div>
+                        <br />
+                        <div>
+                            <h1><i class="fa fa-paw" style="font-size: 26px;"></i> Gentelella Alela!</h1>
+                            <p>©2015 All Rights Reserved. Gentelella Alela! is a Bootstrap 3 template. Privacy and Terms</p>
+                        </div>
+                    </div>
+                </form>
+                <!-- form -->
+            </section>
+            <!-- content -->
+        </div>
+        <div id="register" class="animate form">
+            <section class="login_content">
+                <form name="formRegister">
+                    <h1>Create Account</h1>
+                    <div>
+                        <input type="email" class="form-control" placeholder="Email"  name="email"  ng-model="user.email" required/>
+                    </div>
+                    <div>
+                        <input type="password" class="form-control" placeholder="Password"  name="password"  ng-model="user.password" required/>
+                    </div>
+                    <div ng-init=" showPrest=false; showClient = false;">
+                        <label for="client">
+                            <input type="radio" id="client" name="typeuser" ng-model="user.typeUser" value="client"  >
+                            <span ng-click="showClient = true; showPrest=false; showSpec=false;" >Client</span>
+                        </label>
+                        <label for="artisan">
+                            <input type="radio" id="artisan" name="typeuser" ng-model="user.typeUser" value="artisan" >
+                            <span ng-click="showClient = false; showPrest=true;">Prestataire</span>
+                        </label>
+                    </div>
+                    <div ng-init="showSpec = false" ng-show="showPrest">
+                        <select name="spc" ng-model = "domaine._id" class="form-control" ng-click="getSpecialites(domaine._id)" >
+                            <option value="">--Domaine--</option>
+                            <option value="{{d._id}}"  ng-repeat="d in domaines"  >{{d.name}}</option>
+                        </select>
+                    </div>
+                    <br/>
+                    <div ng-show="showSpec">
+                        <select name="multipleSelect" id="multipleSelect" class="form-control"  ng-model="user.specialites" multiple>
+                            <option value="{{s.name}}" ng-repeat="s in specialitesDom">{{s.name}}</option>
+                        </select>
+                    </div>
+                    <br/>
+                    <div class="clearfix"></div>
+                    <div>
+                        <button type="submit" class="btn btn-default btn-sm" ng-click="registerUser()" ng-disabled="loginForm.$invalid">Signup</button>
+                        <button type="reset" class="btn btn-info btn-sm" ng-click="deselect()">cancel</button>
+                    </div>
+                    <div class="separator">
+                        <p class="change_link">Already a member ?
+                            <a href="#tologin" class="to_register"> Log in </a>
+                        </p>
+                        <div class="clearfix"></div>
+                        <br />
+                        <div>
+                            <h1><i class="fa fa-paw" style="font-size: 26px;"></i> Gentelella Alela!</h1>
+                            <p>©2015 All Rights Reserved. Gentelella Alela! is a Bootstrap 3 template. Privacy and Terms</p>
+                        </div>
+                    </div>
+                </form>
+                <!-- form -->
+            </section>
+            <!-- content -->
+        </div>
+    </div>
+</div>

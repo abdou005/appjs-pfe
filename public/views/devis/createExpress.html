@@ -1,0 +1,424 @@
+<style>
+    .rating{
+        color: #a9a9a9;
+        margin: 0;
+        padding: 0;
+    }
+
+    ul .rating {
+        display: inline-block;
+    }
+
+    .rating li {
+        list-style-type: none;
+        display: inline-block;
+        padding: 1px;
+        text-align: center;
+        font-weight: bold;
+        cursor: pointer;
+    }
+    .rating .filled {
+        color: #1ABB9C;
+    }
+    .thumbUpload {
+        width: 75px;
+        height: 75px;
+        float: none;
+        position: relative;
+        top: 7px;
+        border: solid #1ABB9C;
+    }
+    .btnTrash{
+        position: relative;
+        top: 7px;
+    }
+    form.progressUpload {
+        line-height: 15px;
+    }
+    .progressUpload {
+        display: inline-block;
+        width: 100px;
+        border: 3px groove #CCC;
+    }
+
+    .progress div {
+        font-size: smaller;
+        background: orange;
+        width: 0;
+    }
+</style>
+<div class="row">
+    <div class="col-md-12 col-xs-12">
+        <div class="x_panel">
+            <div class="x_title">
+                <h2>Devis <small>Client</small></h2>
+                <ul class="nav navbar-right panel_toolbox">
+                    <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+                    </li>
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"><i class="fa fa-wrench"></i></a>
+                        <ul class="dropdown-menu" role="menu">
+                            <li><a href="#">Settings 1</a>
+                            </li>
+                            <li><a href="#">Settings 2</a>
+                            </li>
+                        </ul>
+                    </li>
+                    <li><a class="close-link"><i class="fa fa-close"></i></a>
+                    </li>
+                </ul>
+                <div class="clearfix"></div>
+            </div>
+            <div class="x_content">
+                <div class="col-md-12 col-xs-12">
+                    <div id="wizard" class="form_wizard wizard_horizontal">
+                        <ul class="wizard_steps">
+                            <li>
+                                <a href="#step-1">
+                                    <span class="step_no">1</span>
+                                                            <span class="step_descr">
+                                                    Step 1<br />
+                                                    <small>Step 1 description</small>
+                                                </span>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="#step-2">
+                                    <span class="step_no">2</span>
+                                                            <span class="step_descr">
+                                                    Step 2<br />
+                                                    <small>Step 2 description</small>
+                                                </span>
+                                </a>
+                            </li>
+                        </ul>
+                        <form class="form-horizontal form-label-left" name="formDevis" novalidate>
+                            <div id="step-1">
+                                <h2 class="green" align="center"><i class="fa fa-edit"></i> Quelques informations à propos de vos travaux</h2>
+                                <div class="form-group">
+                                    <label class="control-label col-md-3 col-sm-3 col-xs-12" for="title">Titre <span class="required" ng-show="formDevis.title.$error.required" style="color:red;">*</span>
+                                    </label>
+                                    <div class="col-md-6 col-sm-6 col-xs-12" id="title">
+                                        <input type="text" class="form-control" name="title"   ng-model="devis.title" placeholder="Pose 5 fenetre Pvc" required>
+                                    </div>
+                                    <i class="fa fa-ban" ng-show="formDevis.title.$error.required" style="color:red;"> required</i>
+                                </div>
+                                <div class="form-group">
+                                    <label class="control-label col-md-3 col-sm-3 col-xs-12">Spécialites <span class="required" ng-show="formDevis.specialite.$error.required" style="color:red;">*</span></label>
+                                    <div class="col-md-6 col-sm-6 col-xs-12">
+                                        <select class="select2_group form-control" ng-model="devis.specialite" name="specialite" for="specialite" required>
+                                            <optgroup ng-repeat="domaine in domaines" label="{{domaine.name}}">
+                                                <option ng-repeat="specialite in domaine.specialites"  id="specialite" value="{{specialite.name}}">{{specialite.name}}</option>
+                                            </optgroup>
+                                        </select>
+                                        <i class="fa fa-ban" ng-show="formDevis.specialite.$error.required" style="color:red;"> required</i>
+                                    </div>
+
+                                </div>
+                                <div class="form-group">
+                                    <label class="control-label col-md-3 col-sm-3 col-xs-12">Lieu des travaux
+                                    </label>
+                                    <div class="col-md-6 col-sm-6 col-xs-12">
+                                        <label class="btn btn-default active" data-toggle-class="btn-primary" data-toggle-passive-class="btn-default">
+                                            <input type="checkbox" class="js-switch" ng-disabled="true" checked />
+                                            <span>Default</span>
+                                        </label>
+                                        <strong>OU</strong>
+                                        <a href="/createAdresse">autre</a>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="control-label col-md-3 col-sm-3 col-xs-12" for="photoDevis">Photo
+                                    </label>
+                                    <div class="col-md-6 col-sm-6 col-xs-12" id="photoDevis">
+                                        <input type="file" ngf-select ng-model="file1" name="file1"
+                                               ngf-pattern="'image/*'" accept="image/*" ngf-max-size="2MB"
+                                               ngf-model-invalid="errorFile">
+                                        <i ng-show="formDevis.file1.$error.maxSize" style="color:red;">File too large
+                                            {{errorFile.size / 1000000|number:1}}MB: max 2M</i>
+                                        <img ng-show="formDevis.file1.$valid" ngf-thumbnail="file1" class="thumbUpload">
+                                        <button class="btn btn-danger btn-xs btnTrash" ng-click="file1 = null" ng-show="file1"><i class="fa fa-trash-o"></i></button>
+                                    <span class="progressUpload" ng-show="file1.progress >= 0">
+                                                        <div style="width:{{file1.progress}}%" ng-bind="file1.progress + '%'">
+                                                        </div>
+                                    </span>
+                                        <span ng-show="file1.result">Upload Successful   <i class="err" ng-show="errorMsg1" style="color:red;">{{errorMsg1}}</i></span>
+
+                                    </div>
+
+                                </div>
+                                <p>
+                                    <strong>Type : Express</strong>
+                                    <br/>
+                                    State : waiting
+                                </p>
+                                <div class="col-md-3 col-sm-3 col-xs-12 pull-right">
+                                    <div class="form-group">
+                                        <button type="reset" class="btn btn-info btn-block" ng-click="deselect()">Annuler</button>
+                                    </div>
+                                </div>
+                            </div>
+                            <div id="step-2">
+                                <div class="col-md-3 col-sm-12 col-xs-12">
+                                    <h2 class="green" align="center"> <i class="fa fa-eye"></i> Aperçu de votre annonce </h2>
+                                    <p><small>Service : </small>{{devis.specialite}}</p>
+                                    <p><small>titre : </small>{{devis.title}}</p>
+                                    <p><i class="fa fa-map-marker user-profile-icon"></i>
+                                        <small> {{adresseDevis.lieu}} {{adresseDevis.codePostal}}</small>
+                                    </p>
+                                    <p><small>Date des travaux : </small>Urgence</p>
+                                    <p>
+                                        <img ng-show="formDevis.file1.$valid" ngf-thumbnail="file1" class="thumbUpload">
+                                    </p>
+                                    <button ng-show="showBtnSendDevis" type="submit" class="btn btn-danger btn-block" ng-click="setInformation()" ng-disabled="formDevis.$invalid">Envoyer Votre Devis</button>
+                                </div>
+                                <div class="col-md-9 col-sm-12 col-xs-12">
+                                    <h2 class="green" align="center"> <i class="fa fa-users"></i> Prestataires selon votre choix de service</h2>
+                                    <table class="table">
+                                        <thead>
+                                        <tr>
+                                            <th>Contact</th>
+                                            <th>Experience</th>
+                                            <th>Services</th>
+                                            <th>Adresses</th>
+                                            <th>Action</th>
+                                        </tr>
+                                        </thead>
+                                        <tbody>
+                                        <tr ng-repeat="u in listeUsers | filter:devis.specialite" ng-if="u.typeUser[0]=='artisan'">
+                                            <td>
+                                                <ul class="list-unstyled">
+                                                    <li>
+                                                        <img src="{{u.mediaProfil.urlMedia}}" class="avatar" alt="Avatar"> <a href="">{{u.firstname}} {{u.lastname}}</a>
+                                                    </li>
+                                                    <li>
+                                                        <span ng-show="u.dispo" class="badge bg-green">Disponible</span>
+                                                        <span ng-hide="u.dispo" class="badge bg-orange">Occuper</span>
+                                                    </li>
+                                                    <li>
+                                                        <span><small>Email : </small>{{u.email}}</span>
+                                                    </li>
+                                                    <li>
+                                                        <span><small>Type : </small>{{u.type[0]}}</span>
+                                                    </li>
+                                                    <li>
+                                                        <span><small>Effectif : </small>{{u.effectif}}</span>
+                                                    </li>
+                                                </ul>
+                                            </td>
+                                            <td>
+                                                <ul class="list-unstyled">
+                                                    <li><span notegeneral-rating rating-value="u.noteGlobal" data-max="5"></span></li>
+                                                    <li>Depuis <i class="fa fa-calendar"></i> {{u.dateDebut  | date : 'MMM' }} / {{u.dateDebut  | date : 'yyyy' }}</li>
+                                                    <li><i class="fa fa-mobile-phone"></i> {{u.telDomi}} </li>
+                                                    <li><i class="fa fa-phone"></i> {{u.telMobil}} </li>
+                                                </ul>
+                                            </td>
+                                            <td>
+                                                <a ng-repeat="s in u.specialites" href="" class="btn btn-default btn-xs">
+                                                    <i class="fa fc-agenda-view" ></i> {{s.name}}
+                                                </a>
+                                            </td>
+                                            <td>
+                                             <span>
+                                                    <i class="fa fa-map-marker user-profile-icon"></i>
+                                                    <small ng-repeat=" adr in u.adresses" ng-if="adr.isDefault"> {{adr.lieu}} {{adr.codePostal}}</small>
+                                             </span>
+                                            </td>
+                                            <td>
+                                                <button  class="btn btn-warning btn-sm" ng-click="">Envoyer un message</button>
+                                            </td>
+                                        </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                    <!-- End SmartWizard Content -->
+                </div>
+                <div class="col-md-4 col-sm-12 col-xs-12">
+                    <form class="form-inline">
+                        <div class="form-group">
+                            <label for="ex3">Show</label>
+                            <select class="form-control input-sm" ng-model="entries">
+                                <option value="5">5</option>
+                                <option value="10">10</option>
+                                <option value="25">25</option>
+                                <option value="50">50</option>
+                                <option value="100">100</option>
+                            </select>
+                            entries
+                        </div>
+                    </form>
+                </div>
+                <div class="col-md-4 col-sm-12 col-xs-12">
+                    <form class="form-inline">
+                        <div class="form-group">
+                            <label >Etat</label>
+                            <select class="form-control input-sm" ng-model="entriesState">
+                                <option value="waiting" >En Cours</option>
+                                <option value="confirm" >Confirmer</option>
+                            </select>
+                            entries
+                        </div>
+                    </form>
+                </div>
+                <div class="col-md-4 col-sm-12 col-xs-12" >
+                    <form class="form-inline">
+                        <div class="form-group pull-right">
+                            <label for="ex3">Search all columns:</label>
+                            <input type="text" id="ex3" class="form-contro input-sml" placeholder="" ng-model="searchTxt">
+                        </div>
+                    </form>
+                </div>
+                <div class="clear"></div>
+                <div class="col-md-12 col-sm-12 col-xs-12" ng-show="showPrestataire">
+                    <div class="col-md-4 col-sm-4 col-xs-12 animated fadeInDown">
+                        <div class="well profile_view">
+                            <div class="col-sm-12">
+                                <div class="left col-xs-7">
+                                    <p><i ng-show="true">{{prestataire.email}}</i> {{prestataire.firstname}}  {{prestataire.lastname}}</p>
+                                    <p><strong>About: </strong> <span ng-repeat="s in p.specialites"> {{s.name}} / </span> </p>
+                                    <ul class="list-unstyled">
+                                        <li><i class="fa fa-mobile-phone"></i> {{prestataire.telDomi}} </li>
+                                        <li><i class="fa fa-phone"></i> {{prestataire.telMobil}} </li>
+                                    </ul>
+                                </div>
+                                <div class="right col-xs-5 text-center">
+                                    <img src="{{prestataire.mediaProfil.urlMedia}}" alt="" class="img-circle img-responsive">
+                                </div>
+                            </div>
+                            <div class="col-xs-12 bottom text-center">
+                                <div class="col-xs-12 col-sm-6 emphasis">
+                                    <p class="ratings">
+                                        <a>4.0</a>
+                                        <a href="#"><span class="fa fa-star"></span></a>
+                                        <a href="#"><span class="fa fa-star"></span></a>
+                                        <a href="#"><span class="fa fa-star"></span></a>
+                                        <a href="#"><span class="fa fa-star"></span></a>
+                                        <a href="#"><span class="fa fa-star-o"></span></a>
+                                    </p>
+                                </div>
+                                <div class="col-xs-12 col-sm-6 emphasis">
+                                    <button type="button" class="btn btn-primary btn-xs" title="Voir Profil"> <i class="fa fa-user">
+                                    </i></button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!--devis-->
+                <div class="col-md-12 col-xs-12">
+                    <!-- start project list -->
+                    <table class="table table-striped projects">
+                        <thead>
+                        <tr>
+                            <th style="width:1%">
+                                <button class="btn btn-default btn-xs"><span class="glyphicon glyphicon-refresh"></span></button>
+                            </th>
+                            <th style="width: 9%">Titre</th>
+                            <th style="width: 20%">Date Ajout</th>
+                            <th style="width: 5%">Etat</th>
+                            <th style="width: 5%">Spécialite</th>
+                            <th style="width: 15%">Adresse</th>
+                            <th style="width: 45%">Offre</th>
+                        </tr>
+                        </thead>
+                        <tbody >
+                        <tr ng-repeat="d in current_user.devis  | filter:entriesState | filter:searchTxt | limitTo:entries" ng-if="d.type[0] == 'emergency'" ng-class="isConfirmDevis(d.state[0])">
+                            <td>
+                                <a href="/{{d._id}}" class="btn btn-primary btn-xs active"><i class="fa fa-folder"></i> Voir </a>
+                                <br/>
+                                <a href="" ng-if="d.state[0] == 'waiting'" class="btn btn-danger btn-xs" ng-click="deleteDevis(d)"><i class="fa fa-trash-o" ></i> Supprimer </a>
+                            </td>
+                            <td>
+                                <span>{{d.title}}</span>
+                                <br>
+                                <ul class="list-inline">
+                                    <li ng-repeat="media in d.medias">
+                                        <img src="{{media.urlMedia}}" class="avatar" alt="Avatar">
+                                    </li>
+                                </ul>
+                            </td>
+                            <td> {{d.created_at | date : format : timezone}}</td>
+                            <td>
+                                <span class="label label-warning" ng-if="d.state[0] == 'waiting'">En Cours</span>
+                                <span class="label label-success" ng-if="d.state[0] == 'confirm'">Confirmer</span>
+                            </td>
+                            <td>
+                                <a href="" class="btn btn-default btn-xs">
+                                    <i class="fa fc-agenda-view" ></i> {{d.specialite}}
+                                </a>
+                            </td>
+                            <td>
+                                <span><small>Cp : </small> {{d.adresseDevis.codePostal}}</span>
+                                <br>
+                                <span><small>Lieu : </small>{{d.adresseDevis.lieu}}</span>
+                            </td>
+                            <td>
+                                <a href="#" >  <strong> {{d.offres.length}} </strong> Offre(s)</a>
+                                <hr/>
+                                <p ng-repeat=" offre in d.offres" ng-if="d.state[0] == 'waiting'">
+                                    <button ng-click="getPrestataire(offre.prestataireId)" type="button" class="btn btn-primary btn-xs"> <i class="fa fa-user">
+                                    </i> View Profile </button>
+                                    <br/>
+                                    <span>Title : {{offre.title}}</span>
+                                    <br/>
+                                    <span>Description : {{offre.desc}}</span>
+                                    <br/>
+                                    <button class="btn btn-default btn-sm" ng-click="confirmerOffre(d,offre.prestataireId)">Confirmer</button>
+                                    <br/>
+                                    <a href="#" ><strong> {{offre.questions.length}} </strong> Question(s) </a>
+                                    <br/>
+                                                <span ng-repeat="question in offre.questions">
+                                                    <span>{{question.contents}}</span> <br/>
+                                                </span>
+                                    <input type="text" class="form-control" placeholder="Questions"  id="quest{{offre._id}}" />
+                                    <button  class="btn btn-default btn-sm" ng-click="createQuestion(d,offre)">Répondre</button>
+
+                                </p>
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+                    <!-- end project list -->
+                </div>
+                <div class="col-md-12 col-xs-12">
+                    <div class="dataTables_paginate paging_full_numbers" id="example_paginate">
+                        <a tabindex="0" class="first paginate_button paginate_button_disabled" id="example_first">First</a>
+                        <a tabindex="0" class="previous paginate_button paginate_button_disabled" id="example_previous">Previous</a>
+                                                <span>
+                                                    <a tabindex="0" class="paginate_active">1</a>
+                                                    <a tabindex="0" class="paginate_button">2</a>
+                                                    <a tabindex="0" class="paginate_button">3</a>
+                                                    <a tabindex="0" class="paginate_button">4</a>
+                                                </span>
+                        <a tabindex="0" class="next paginate_button" id="example_next">Next</a>
+                        <a tabindex="0" class="last paginate_button" id="example_last">Last</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script type="text/javascript" src="../../ressources/js/wizard/jquery.smartWizard.js"></script>
+<script type="text/javascript">
+    $(document).ready(function () {
+        // Smart Wizard
+        $('#wizard').smartWizard();
+
+        function onFinishCallback() {
+            $('#wizard').smartWizard('showMessage', 'Finish Clicked');
+            alert('Finish Clicked');
+        }
+    });
+
+    $(document).ready(function () {
+        // Smart Wizard
+        $('#wizard_verticle').smartWizard({
+            transitionEffect: 'slide'
+        });
+
+    });
+</script>

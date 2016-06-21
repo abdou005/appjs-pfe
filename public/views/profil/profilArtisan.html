@@ -1,0 +1,632 @@
+<style>
+    .rating{
+        color: #a9a9a9;
+        margin: 0;
+        padding: 0;
+    }
+
+    ul.rating {
+        display: inline-block;
+    }
+
+    .rating li {
+        list-style-type: none;
+        display: inline-block;
+        padding: 1px;
+        text-align: center;
+        font-weight: bold;
+        cursor: pointer;
+    }
+
+    .rating .filled {
+        color: #1ABB9C;
+    }
+    .thumbUpload {
+        width: 24px;
+        height: 24px;
+        float: none;
+        position: relative;
+        top: 7px;
+    }
+
+    form .progressUpload {
+        line-height: 15px;
+    }
+
+    .progressUpload {
+        display: inline-block;
+        width: 100px;
+        border: 3px groove #CCC;
+    }
+
+    .progressUpload div {
+        font-size: smaller;
+        background: orange;
+        width: 0;
+    }
+</style>
+<div class="row">
+    <div class="col-md-12 col-sm-12 col-xs-12">
+        <div class="x_panel">
+            <div class="x_title">
+                <h2>Bienvenue sur votre espace Membre ! <small>Ceci est votre Tableau de bord</small></h2>
+                <ul class="nav navbar-right panel_toolbox">
+
+                </ul>
+                <div class="clearfix"></div>
+            </div>
+            <div class="x_content">
+                <div class="col-md-3 col-sm-3 col-xs-12 profile_left">
+                    <div class="profile_img">
+                        <!-- end of image cropping -->
+                        <div id="crop-avatar">
+                            <!-- Current avatar -->
+                            <div class="avatar-view" title="" data-original-title="Change the avatar">
+                                <img src="{{current_user.mediaProfil.urlMedia}}" alt="Avatar">
+                            </div>
+                            <!-- Cropping modal -->
+                        </div>
+                        <!-- end of image cropping -->
+                    </div>
+                    <h3>{{current_user.firstname}} {{current_user.lastname}}</h3>
+                    <ul class="list-unstyled user_data">
+                        <li><i class="fa fa-map-marker user-profile-icon"></i> <span ng-repeat="adr in current_user.adresses" ng-if="adr.isDefault"> {{adr.lieu}} {{adr.codePostal}}</span>
+                        </li>
+                        <li>
+                           <a href="" ng-click="getSettingSpec()"> <i class="fa fa-briefcase user-profile-icon"></i> <span>Mes specialites</span></a>
+                        </li>
+                        <li class="m-top-xs">
+                            <a href="" target="_blank"><i class="fa fa-external-link user-profile-icon"></i><span>{{current_user.email}}</span></a>
+                        </li>
+                    </ul>
+                    <a class="btn btn-success" data-toggle="modal" data-target=".bs-example-modal-lg"><i class="fa fa-edit m-right-xs"></i>Modifier Votre Profile</a>
+                    <!-- Large modal -->
+                    <div class="modal fade bs-example-modal-lg" tabindex="-1" role="dialog" aria-hidden="true" style="display: none;">
+                        <div class="modal-dialog modal-lg">
+                            <div class="modal-content" style="background-color: #f2eee8;">
+                                <div class="modal-header">
+                                    <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">x</span>
+                                    </button>
+                                    <h4 class="modal-title" id="myModalLabel">
+                                        <img src="{{current_user.mediaProfil.urlMedia}}" class="img-thumbnail pull-left" alt="" style="width: 150px;">
+                                    </h4>
+                                    <div class="clear"></div>
+                                </div>
+                                <div class="modal-body">
+                                    <div class="row">
+                                        <div class="container-full">
+                                            <div class="row">
+                                                <div class="col-lg-12">
+                                                    <div class="test1">
+                                                        <h3>Modifier Compte</h3>
+                                                    </div>
+                                                </div>
+                                                <div class="col-lg-12">
+                                                    <div class="col-lg-12 test2">
+                                                        <div class="col-lg-12">
+                                                            <form class="form-horizontal form-label-left" name="formCompte" novalidate>
+
+                                                                <div class="form-group">
+                                                                    <label class="control-label col-md-2 col-sm-2 col-xs-12">Nom <span class="required">*</span></label>
+                                                                    <div class="col-md-4 col-sm-4 col-xs-12">
+                                                                        <input type="text" class="form-control" placeholder="Nom" ng-model="current_user.firstname"  required>
+                                                                    </div>
+
+                                                                    <label class="control-label col-md-2 col-sm-2 col-xs-12">Prenom <span class="required">*</span></label>
+                                                                    <div class="col-md-4 col-sm-4 col-xs-12">
+                                                                        <input type="text" class="form-control" placeholder="Prenom" ng-model="current_user.lastname"  required>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="form-group">
+                                                                    <label class="control-label col-md-2 col-sm-2 col-xs-12">Tel </label>
+                                                                    <div class="col-md-4 col-sm-4 col-xs-12">
+                                                                        <input type="tel" class="form-control" placeholder="Mobile" ng-model="current_user.telMobil"  required>
+                                                                    </div>
+                                                                    <label class="control-label col-md-2 col-sm-2 col-xs-12">Tel </label>
+                                                                    <div class="col-md-4  col-sm-4 col-xs-12">
+                                                                        <input type="tel" class="form-control" placeholder="Bureau" ng-model="current_user.telDomi">
+                                                                    </div>
+
+                                                                </div>
+                                                                <div class="ln_solid"></div>
+                                                                <div class="form-group">
+                                                                    <div class="col-md-3 col-sm-3 col-xs-12 col-md-offset-2">
+                                                                        <button type="submit" class="btn btn-warning btn-block" ng-click="updateUserProfil()" ng-disabled="formCompte.$invalid"> Enregistrer</button>
+                                                                    </div>
+                                                                    <div class="col-md-3 col-sm-3 col-xs-12">
+
+                                                                        <button type="reset" class="btn btn-info btn-block" ng-click="deselect()" >Annuler</button>
+                                                                    </div>
+                                                                    <div class="col-md-9 col-sm-9 col-xs-12 col-md-offset-3">
+
+
+                                                                    </div>
+                                                                </div>
+                                                            </form>
+                                                        </div>
+                                                        <div class="clear"></div>
+                                                        <div ng-controller="uploadCtrl">
+                                                            <form name="myForm">
+                                                                <div class="col-lg-6">
+                                                                    <input type="file" ngf-select ng-model="file" name="file"
+                                                                           ngf-pattern="'image/*'" accept="image/*" ngf-max-size="2MB" required
+                                                                           ngf-model-invalid="errorFile">
+                                                                    <i ng-show="myForm.file.$error.required"></i>
+                                                                    <br>
+                                                                    <i ng-show="myForm.file.$error.maxSize" style="color: red;">Taille MB?
+                                                                        {{errorFile.size / 1000000|number:1}}: max 2M</i>
+                                                                    <img ng-show="myForm.file.$valid" ngf-thumbnail="file" class="thumbUpload">
+                                                                    <button class="btn btn-danger btn-xs btnTrash" ng-click="file = null; errorMsg ='';" ng-show="file"><i class="fa fa-trash-o"></i></button>
+                                                                </div>
+                                                                <div class="col-lg-6">
+                                                                    <button type="submit" ng-disabled="!myForm.$valid" ng-click="upload(file)"><i class="fa fa-file-image-o"></i>Uploader</button>
+                                                                                          <span class="progressUpload" ng-show="file.progress >= 0">
+                                                                                            <div style="width:{{file.progress}}%" ng-bind="file.progress + '%'"></div>
+                                                                                          </span>
+                                                                    <span ng-show="file.result">Image aploader avec succee</span>
+                                                                    <span class="err" ng-show="errorMsg" style="color:#1ABB9C;">{{errorMsg}}</span>
+                                                                </div>
+                                                            </form>
+                                                        </div>
+                                                        <div class="clear"></div>
+                                                        <div class="col-lg-12">
+                                                            <div class="row">
+                                                                <div class="col-md-3 active" ng-repeat="media in current_user.medias" >
+                                                                    <div class="thumbnail">
+                                                                        <div class="image view view-first">
+                                                                            <img  style="width: 100%; height: 100%; display: block;" src="{{media.urlMedia}}" alt="image" />
+                                                                            <div class="mask">
+                                                                                <p>{{media.name}}</p>
+                                                                                <div class="tools tools-bottom">
+                                                                                    <a href=""><i class="fa fa-link"></i></a>
+                                                                                    <a href=""><i class="fa fa-pencil"></i></a>
+                                                                                    <a href="" ng-if="media._id != current_user.mediaProfil._id" ng-click="removeMedia(media)"><i class="fa fa-times"></i></a>
+                                                                                </div>
+                                                                            </div>
+                                                                        </div>
+                                                                        <div class="caption">
+                                                                            <p>
+                                                                                <a href="" class="btn btn-default btn-xs" ng-click="setDefaultMedia(media)" ng-disabled="media._id == current_user.mediaProfil._id"><i class="fa fa-image"></i> Photo Profil </a>
+                                                                                <br/>
+                                                                            </p>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-lg-12">
+                                                    <div class="test1">
+                                                        <h3>Securites</h3>
+                                                    </div>
+                                                </div>
+                                                <div class="col-lg-12">
+                                                    <div class="test2">
+                                                        <form class="form-horizontal form-label-left" name="formPassowrd" novalidate>
+
+                                                            <div class="form-group">
+                                                                <label class="control-label col-md-2 col-sm-2 col-xs-12">Ancien mot de passe <span class="required">*</span></label>
+                                                                <div class="col-md-4 col-sm-4 col-xs-12">
+                                                                    <input type="password" class="form-control" placeholder="*****" ng-keyup="getcurrentPassword()" ng-model="currentPassword" required>
+                                                                </div>
+
+                                                                <label class="control-label col-md-2 col-sm-2 col-xs-12">Nouveau mot de passe </label>
+                                                                <div class="col-md-4 col-sm-4 col-xs-12">
+                                                                    <input type="password" class="form-control" placeholder="******" ng-model="newPassword" ng-keyup="getNewPassword()"  ng-disabled="!showNewPass" required>
+                                                                </div>
+                                                            </div>
+                                                            <div class="form-group">
+                                                                <label class="col-md-6 col-sm-6 col-xs-12 text-center">
+                                                                    <small style="color: red;">{{messageErrorPassword}}</small>
+                                                                    <br>
+                                                                    <small>{{messageOkPassword}}</small>
+                                                                </label>
+                                                                <label class="control-label col-md-2 col-sm-2 col-xs-12">Confirmer nouveau mot de passe </label>
+                                                                <div class="col-md-4  col-sm-4 col-xs-12">
+                                                                    <input type="password" class="form-control" placeholder="******" ng-keyup="getConfPassword()" ng-disabled="!showConfPass || !showNewPass" ng-model="confirmPassword" required>
+                                                                </div>
+
+                                                            </div>
+                                                            <div class="ln_solid"></div>
+                                                            <div class="form-group">
+                                                                <div class="col-md-3 col-sm-3 col-xs-12 col-md-offset-2">
+                                                                    <button type="submit" class="btn btn-warning btn-block" ng-click="updatePassword()" ng-disabled="formPassowrd.$invalid || !showRegisterPass"> Enregistrer</button>
+                                                                </div>
+                                                                <div class="col-md-3 col-sm-3 col-xs-12">
+
+                                                                    <button type="reset" class="btn btn-info btn-block" ng-click="deselectPass()" > Annuler</button>
+                                                                </div>
+                                                                <div class="col-md-9 col-sm-9 col-xs-12 col-md-offset-3">
+
+
+                                                                </div>
+                                                            </div>
+                                                        </form>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-default" data-dismiss="modal"> Annuler</button>
+                                    <button type="button" class="btn btn-primary">Sauvgarder</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <br>
+                    <ul class="list-unstyled user_data">
+                        <li>
+                            <div class="col-md-12 col-sm-12 col-xs-12">
+                                <div class="col-md-6 col-sm-6 col-xs-6">
+                                    <a href="/listMissions">
+                                        <strong>Mes Projets</strong>
+                                    </a>
+                                </div>
+                                <div class="col-md-6 col-sm-6 col-xs-6">
+                                        <span  class="badge bg-default pull-right" >{{current_user.missions.length}}</span>
+                                </div>
+                                <hr>
+                            </div>
+                        </li>
+                        <li>
+                            <div class="col-md-12 col-sm-12 col-xs-12">
+                                <div class="col-md-6 col-sm-6 col-xs-6">
+                                    <a href="" ng-click="getProjectsRating()">
+                                        <strong>Projets Evaluer</strong>
+                                    </a>
+                                </div>
+                                <div class="col-md-6 col-sm-6 col-xs-6">
+                                    <span  class="badge bg-default pull-right" >{{nbrMissionEvaluer}}</span>
+                                </div>
+                                <hr>
+                            </div>
+                        </li>
+                        <li>
+                            <div class="col-md-12 col-sm-12 col-xs-12">
+                                <div class="col-md-6 col-sm-6 col-xs-6">
+                                    <a href="" ng-click="getSettingProfil()">
+                                        <strong>Page Pro</strong>
+                                    </a>
+                                </div>
+                                <div class="col-md-6 col-sm-6 col-xs-6">
+                                    <span ng-hide="current_user.confirmer" class="badge bg-red pull-right">50%</span>
+                                    <span ng-show="current_user.confirmer" class="badge bg-green pull-right">100%</span>
+                                </div>
+                                <hr>
+                            </div>
+                        </li>
+                    </ul>
+                    <!-- end of skills -->
+                    <div class="col-md-12 col-sm-12 col-xs-12 animated fadeInDown" ng-show="showClient">
+                            <div class="well profile_view">
+                                <div class="col-sm-12">
+                                    <div class="left col-xs-7">
+                                        <p><i ng-show="true">{{client.email}}</i> {{client.firstname}}  {{client.lastname}}</p>
+                                        <ul class="list-unstyled">
+                                            <li><i class="fa fa-mobile-phone"></i> {{client.telDomi}} </li>
+                                            <li><i class="fa fa-phone"></i> {{client.telMobil}} </li>
+                                        </ul>
+                                    </div>
+                                    <div class="right col-xs-5 text-center">
+                                        <img src="{{client.mediaProfil.urlMedia}}" alt="" class="img-circle img-responsive">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                </div>
+                <div class="col-md-9 col-sm-9 col-xs-12">
+                    <div class="profile_title">
+                        <div class="col-md-6">
+                            <h2>Paramètres du compte</h2>
+                        </div>
+                        <div class="col-md-6">
+                            <div id="reportrange" class="pull-right" style="margin-top: 5px; background: #fff; cursor: pointer; padding: 5px 10px; border: 1px solid #E6E9ED">
+                                <i class="glyphicon glyphicon-calendar fa fa-calendar"></i>
+                                <span>{{current_user.created_at | date : 'MMMM'}} {{current_user.created_at | date : 'dd' }}, {{current_user.created_at | date : 'yyyy' }}</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-12 col-sm-12 col-xs-12" ng-controller="notificationUserCtrl">
+                        <h3>{{current_user.notifications.length}} Notifications <a href="" ng-click="clearAllNotif()"><small class="badge bg-default">clear</small></a></h3>
+                        <ul class="to_do">
+                            <li ng-repeat="n in current_user.notifications">
+                                <p>
+                                    <div class="icheckbox_flat-green" style="position: relative;">
+                                      <a href="" class="btn btn-danger btn-xs" ng-click="deleteNotification(n)"><i class="fa fa-trash-o" ></i></a>
+                                    </div>
+                                {{n.message}}
+                                </p>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="col-md-12 col-sm-12 col-xs-12" ng-show="showProjectRating">
+                        <h3 class="green" align="center"><i class="fa fa-star"></i> Derniers projets évaluées</h3>
+                        <!-- start recent activity -->
+                        <ul class="messages">
+                            <li ng-repeat="project in current_user.missions" ng-if="project.avis != null">
+                                <a href="#">
+                                    <img src="ressources/images/users/defaultImg.jpg" class="avatar" alt="Avatar" ng-click="getClient(project.avis.clientId)">
+                                </a>
+                                <div class="message_date">
+                                    <h3 class="date text-info">{{project.created_at  | date : 'dd' }}</h3>
+                                    <p class="month">{{project.created_at  | date : 'MMM' }}</p>
+                                </div>
+                                <div class="message_wrapper">
+                                    <h4 class="heading">{{project.name}}</h4>
+                                    <blockquote class="message">
+                                        <strong>
+                                            <a href="#" ng-click="getClient(project.avis.clientId)">Ce client</a> a evalue ce projet avec ce note :
+                                        </strong>
+                                            <p>{{project.avis.desc}}</p>
+                                            <p align="center">
+                                                <span ng-init="ratingNoteGeneral =project.avis.noteGlobal">Note générale :</span>
+                                                <div align="center" notegeneral-rating rating-value="ratingNoteGeneral" data-max="5"></div>
+                                            </p>
+                                               <table class="table" border="0px" style="text-align: center;">
+                                                <tr>
+                                                   <td>
+                                                       <span ng-init="ratingQualityServ =project.avis.noteQualityServ">Qualité des travaux</span>
+                                                       <div qualityservice-rating rating-value="ratingQualityServ" data-max="5"></div>
+                                                   </td>
+                                                    <td>
+                                                        <span ng-init="ratingPriceServ =project.avis.notePriceServ">Prix des travaux</span>
+                                                        <div priceservice-rating rating-value="ratingPriceServ" data-max="5"></div>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td>
+                                                        <span ng-init="ratingRespectPeriod =project.avis.noteRespectPeriod">Respect des délais</span>
+                                                        <div respectperiod-rating rating-value="ratingRespectPeriod" data-max="5"></div>
+                                                    </td>
+                                                    <td>
+                                                        <span ng-init="ratingContact =project.avis.noteContact">Qualité de contact</span>
+                                                        <div contact-rating rating-value="ratingContact" data-max="5"></div>
+                                                    </td>
+                                                </tr>
+                                                </table>
+                                    </blockquote>
+                                    <br>
+                                    <p class="url">
+                                                <span class="fs1 text-info" aria-hidden="true" data-icon="?"0>
+
+                                                </span>
+                                        <a href="/{{project.devis._id}}"><i class="fa fa-paperclip"></i>Consulter la demande </a>
+                                    </p>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="col-md-12 col-sm-12 col-xs-12" ng-show="showSettingProfil">
+                        <h3 class="green" align="center"><i class="fa fa-briefcase"></i> Gerer votre page Professionnel </h3>
+                        <div class="alert alert-danger alert-dismissible fade in" role="alert" ng-hide="current_user.confirmer">
+                            <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">×</span>
+                            </button>
+                            <strong>Bonjour!</strong> Vous devez terminer vos documents pour verifier votre identitie.
+                        </div>
+                        <div class="col-md-12 col-sm-12 col-xs-12" ng-hide="current_user.confirmer">
+                            <h3 class="green" align="center"><i class="fa fa-signal"></i> Etat des Documents</h3>
+                            <table class="table table-striped projects">
+                                <thead>
+                                <tr>
+                                    <th style="width: 10%">type</th>
+                                    <th style="width: 10%"></th>
+                                    <th style="width: 10%">Etat</th>
+                                    <th style="width: 25%">Document</th>
+                                    <th style="width: 45%">#Action</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <tr ng-repeat="document in current_user.documents"  ng-class="isActiveDocs(document.state)">
+                                    <td>
+                                        <a href="#">{{document.type[0]}}</a>
+                                        <br>
+                                        <span><small>Format : </small>{{document.format}}</span>
+
+                                    </td>
+                                    <td>
+                                        <span>{{document.name}}</span>
+                                        <p>{{document.desc}}</p>
+                                    </td>
+                                    <td class="project_progress">
+                                        <div class="progress progress_sm">
+                                            <div ng-hide="document.state" class="progress-bar bg-orange" role="progressbar" data-transitiongoal="57" aria-valuenow="56" style="width: 50%;" ></div>
+                                            <div ng-show="document.state" class="progress-bar bg-green" role="progressbar" data-transitiongoal="57" aria-valuenow="56" style="width: 100%;" ></div>
+                                        </div>
+                                        <small ng-hide="document.state">50% Complete</small>
+                                        <small ng-show="document.state">100% Complete</small>
+                                        <span class="label label-warning" ng-hide= "document.state">En Cours</span>
+                                        <span class="label label-success" ng-show= "document.state">Terminer</span>
+                                    </td>
+                                    <td>
+                                        <div ng-controller="uploadDocCtrl">
+                                            <form name="myFormDoc">
+                                                <fieldset>
+                                                    <input type="file" ngf-select ng-model="file" name="file"
+                                                           ngf-pattern="'image/*'" accept="image/*" ngf-max-size="2MB" required
+                                                           ngf-model-invalid="errorFile">
+                                                    <br>
+                                                    <img ng-show="myForm.file.$valid" ngf-thumbnail="file" class="thumbUpload">
+                                                    <button class="btn btn-danger btn-xs btnTrash" ng-click="file = null" ng-show="file"><i class="fa fa-trash-o"></i></button>
+                                                    <br>
+                                                    <button ng-if="!document.state" type="submit" ng-disabled="!myFormDoc.$valid" ng-click="uploadDoc(file,document)">Envoyer</button>
+                                                              <span class="progressUpload" ng-show="file._id.progress >= 0">
+                                                                <div style="width:{{file.progress}}%" ng-bind="file.progress + '%'"></div>
+                                                              </span>
+                                                    <span ng-show="file.result">Upload Successful</span>
+                                                    <span class="err" ng-show="errorMsg">{{errorMsg}}</span>
+                                                </fieldset>
+                                                <br>
+                                            </form>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <img src="{{document.urlDoc}}" alt="Image Doc" ng-style="styleDocs(document.type[0])">
+                                    </td>
+                                </tr>
+                                </tbody>
+                            </table>
+
+                        </div>
+                        <div class="col-md-12 col-sm-12 col-xs-12" ng-controller="prestationPrestataireCtrl">
+                            <h6 class="green" align="center"> Votre activité </h6>
+                            <form class="form-horizontal form-label-left" style="text-align: center;" name="formActivite" novalidate>
+                                <div class="form-group">
+                                    <div class="col-md-8 col-sm-8 col-xs-12">
+                                         <textarea class="form-control" rows="3" ng-model="userActiv.activite" required>
+                                           {{current_user.activite}}
+                                        </textarea>
+                                    </div>
+
+                                </div>
+                                <div class="form-group">
+                                    <div class="col-md-4 col-sm-4 col-xs-12">
+                                        <button type="submit" class="btn btn-warning btn-block" ng-click="updateActivite(user.activite)" ng-disabled="formActivite.$invalid">Enregistrer</button>
+                                    </div>
+                                </div>
+                            </form>
+                         <h6 class="green" align="center"> Ajouter prestation </h6>
+                            <form class="form-horizontal form-label-left" name="formPrestation" novalidate>
+                                <div class="form-group">
+                                    <label class="control-label col-md-2 col-sm-2 col-xs-12">Nom <span class="required">*</span></label>
+                                    <div class="col-md-4 col-sm-4 col-xs-12">
+                                        <input type="text" class="form-control" placeholder="Nom service" ng-model="prestation.serviceName"  required>
+                                    </div>
+
+                                    <label class="control-label col-md-2 col-sm-2 col-xs-12">Description <span class="required">*</span></label>
+                                    <div class="col-md-4 col-sm-4 col-xs-12">
+                                        <textarea class="form-control" rows="3" ng-model="prestation.desc" required>
+                                            Description
+                                        </textarea>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="control-label col-md-2 col-sm-2 col-xs-12">prix <span class="required">*</span></label>
+                                    <div class="col-md-4 col-sm-4 col-xs-12">
+                                        <input type="number" class="form-control" ng-model="prestation.prix"  required>
+                                    </div>
+
+                                    <label class="control-label col-md-2 col-sm-2 col-xs-12">Remise <span class="required"></span></label>
+                                    <div class="col-md-4 col-sm-4 col-xs-12">
+                                        <input type="text" class="form-control" placeholder="Remise en %" ng-model="prestation.remise">
+                                    </div>
+                                </div>
+                                <div class="ln_solid"></div>
+                                <div class="form-group">
+                                    <div class="col-md-3 col-sm-3 col-xs-12 col-md-offset-2">
+                                        <button type="submit" class="btn btn-success btn-block" ng-click="createPrestation()" ng-disabled="formPrestation.$invalid">Ajouter</button>
+                                        <button type="submit" class="btn btn-warning btn-block" ng-click="updatePrestation(prestation)" ng-disabled="formPrestation.$invalid">M A J</button>
+                                    </div>
+                                    <div class="col-md-3 col-sm-3 col-xs-12 col-md-offset-2">
+                                        <button type="reset" class="btn btn-info btn-block">Annuler</button>
+                                    </div>
+                                </div>
+                            </form>
+                            <h6 class="green" align="center"> Mes Prestations </h6>
+                            <div class="col-md-6">
+                                <form class="form-inline">
+                                    <div class="form-group">
+                                        <label for="ex3">Show</label>
+                                        <select class="form-control input-sm" ng-model="entries">
+                                            <option value="1">1</option>
+                                            <option value="2">2</option>
+                                            <option value="10">10</option>
+                                            <option value="25">25</option>
+                                            <option value="50">50</option>
+                                            <option value="100">100</option>
+                                        </select>
+                                        entries
+                                    </div>
+                                </form>
+                            </div>
+                            <div class="col-md-6" >
+                                <form class="form-inline">
+                                    <div class="form-group pull-right">
+                                        <label for="ex3">Search all columns:</label>
+                                        <input type="text" id="ex3" class="form-contro input-sml" placeholder="" ng-model="searchTxt">
+                                    </div>
+                                </form>
+                            </div>
+                            <table class="table table-striped projects">
+                                <thead>
+                                <tr>
+                                    <th>prestation</th>
+                                    <th>prix</th>
+                                    <th>remise</th>
+                                    <th>#Action</th>
+                                    <th></th>
+                                </tr>
+                                </thead>
+                                <tbody >
+                                <tr ng-repeat="pr in current_user.prestations | filter:searchTxt | limitTo:entries">
+                                    <td>
+                                        <span>{{pr.serviceName}}</span>
+                                    </td>
+                                    <td>
+                                        <span>{{pr.prix}}</span>
+                                    </td>
+                                    <td>
+                                        <span>{{pr.remise}}</span>
+                                    </td>
+                                    <td>
+                                        <a href=""  class="btn btn-warning btn-xs" ng-click="editePrestation(pr._id)"><i class="fa fa-edit"></i> editer </a>
+                                    </td>
+                                    <td>
+                                        <a href=""  class="btn btn-danger btn-xs" ng-click="removePrestation(pr._id)"><i class="fa fa-trash"></i> Supprimer </a>
+                                    </td>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    <div class="col-md-12 col-sm-12 col-xs-12" ng-show="showSettingSpec">
+                        <h3 class="green" align="center"><i class="fa fa-briefcase"></i> Gerer vos Specialites </h3>
+                        <div class="col-md-6 col-sm-6 col-xs-12">
+                            <h6 class="green" align="center"> Ajouter spécialité </h6>
+                            <form class="form-horizontal form-label-left" name="formSpec" novalidate>
+                                <div class="form-group">
+                                    <label class="control-label col-md-3 col-sm-3 col-xs-12">Specialites <span class="required" ng-show="formDevis.specialite.$error.required" style="color:red;">*</span></label>
+                                    <div class="col-md-6 col-sm-6 col-xs-12">
+                                        <select name="specialite" ng-model = "domaine._id" class="form-control" ng-click="getSpecialites(domaine._id)" required>
+                                            <option value="">--Domaine--</option>
+                                            <option value="{{d._id}}"  ng-repeat="d in domaines"  >{{d.name}}</option>
+                                        </select>
+                                        <i class="fa fa-ban" ng-show="formSpec.specialite.$error.required" style="color:red;"></i>
+                                    </div>
+                                </div>
+                                <div class="form-group" ng-show="showSpec">
+                                    <label class="control-label col-md-3 col-sm-3 col-xs-12">Specialites <span class="required" ng-show="formDevis.specialite.$error.required" style="color:red;">*</span></label>
+                                    <div class="col-md-6 col-sm-6 col-xs-12">
+                                        <select name="multipleSelect" id="multipleSelect" class="form-control"  ng-model="user.specialites" required multiple>
+                                            <option value="{{s.name}}" ng-repeat="s in specialitesDom">{{s.name}}</option>
+                                        </select>
+                                        <i class="fa fa-ban" ng-show="formSpec.multipleSelect.$error.required" style="color:red;"></i>
+                                    </div>
+                                </div>
+                                <div class="ln_solid"></div>
+                                <div class="form-group">
+                                    <div class="col-md-3 col-sm-3 col-xs-12 col-md-offset-2">
+                                        <button type="submit" class="btn btn-success btn-block" ng-click="addSpecialite()" ng-disabled="formSpec.$invalid">Ajouter</button>
+                                    </div>
+                                    <div class="col-md-3 col-sm-3 col-xs-12">
+                                        <button type="reset" class="btn btn-primary btn-block">Annuler</button>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                        <div class="col-md-6 col-sm-6 col-xs-12">
+                            <h6 class="green" align="center"> Supprimer spécialité </h6>
+                            <a ng-repeat="sp in current_user.specialites" href="" class="btn btn-danger btn-xs" ng-click="removeSpecialites(sp)">
+                                <i class="fa fa-trash-o" ></i> {{sp.name}}
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

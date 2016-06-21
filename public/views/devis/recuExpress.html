@@ -1,0 +1,154 @@
+<div class="row">
+    <div class="col-md-12 col-xs-12">
+        <div class="x_panel">
+            <div class="x_title">
+                <h2>Devis <small>Client</small></h2>
+                <ul class="nav navbar-right panel_toolbox">
+                    <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+                    </li>
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"><i class="fa fa-wrench"></i></a>
+                        <ul class="dropdown-menu" role="menu">
+                            <li><a href="#">Settings 1</a>
+                            </li>
+                            <li><a href="#">Settings 2</a>
+                            </li>
+                        </ul>
+                    </li>
+                    <li><a class="close-link"><i class="fa fa-close"></i></a>
+                    </li>
+                </ul>
+                <div class="clearfix"></div>
+            </div>
+            <div class="x_content">
+                <div class="col-md-12 col-xs-12">
+                    <h3 class="green" align="center"><i class="fa fa-users"></i> Clients</h3>
+                    <table class="table">
+                        <thead>
+                        <tr>
+                            <th>Contact</th>
+                            <th>Adresse</th>
+                            <th>Action</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr ng-repeat="u in listeUsers" ng-if="u.typeUser[0] =='client'" >
+                            <td>
+                                <ul class="list-unstyled">
+                                    <li>
+                                        <img src="{{u.mediaProfil.urlMedia}}" class="avatar" alt="Avatar"> <a href="">{{u.firstname}} {{u.lastname}}</a>
+                                    </li>
+                                    <li>
+                                        <span ng-show="u.dispo" class="badge bg-green">Disponible</span>
+                                        <span ng-hide="u.dispo" class="badge bg-orange">Occuper</span>
+                                    </li>
+                                    <li>
+                                        <span><small>Email : </small>{{u.email}}</span>
+                                    </li>
+                                </ul>
+                            </td>
+                            <td>
+                                <i class="fa fa-map-marker user-profile-icon"></i>
+                                <small ng-repeat=" adr in u.adresses" ng-if="adr.isDefault"> {{adr.lieu}} {{adr.codePostal}}</small>
+                            </td>
+                            <td>
+                                <button  class="btn btn-warning btn-sm" ng-click="">Envoyer un message</button>
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="col-md-12 col-xs-12">
+                    <h3 class="green" align="center"><i class="fa fa-ambulance"></i> Prestation Urgence</h3>
+                    <table class="table">
+                        <thead>
+                        <tr>
+                            <th>Contact</th>
+                            <th>Devis</th>
+                            <th>Offre</th>
+                            <th>Action</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr ng-repeat=" n in notificationNewDevis" ng-class="isConfirmDevis(n.devis.state[0])">
+                            <td>
+                                <ul class="list-unstyled">
+                                    <li>
+                                        <img src="{{n.user.mediaProfil.urlMedia}}" class="avatar" alt="Avatar"> <a href="">{{n.user.firstname}} {{n.user.lastname}}</a>
+                                    </li>
+                                    <li>
+                                        <span ng-show="n.user.dispo" class="badge bg-green">Disponible</span>
+                                        <span ng-hide="n.user.dispo" class="badge bg-orange">Occuper</span>
+                                    </li>
+                                    <li>
+                                        <span><small>Email : </small>{{n.user.email}}</span>
+                                    </li>
+                                </ul>
+                            </td>
+                            <td>
+                                <ul class="list-unstyled">
+                                    <li>
+                                        <span>{{n.devis.title}}</span>
+                                    </li>
+                                    <li>
+                                        <span class="label label-warning" ng-if="n.devis.state[0] == 'waiting'">En Attente</span>
+                                        <span class="label label-success" ng-if="n.devis.state[0] == 'confirm'">Confirmer</span>
+                                    </li>
+                                    <li ng-repeat="media in n.devis.medias">
+                                        <img src="{{media.urlMedia}}" class="img-responsive" style="width: auto; height: 400px;" alt="{{media.name}}">
+                                    </li>
+                                    <li>
+                                        <div id="mapDevis" style="width:150px; height:150px"></div>
+                                        <span><i class="fa fa-map-marker user-profile-icon"></i>  <small>{{n.devis.adresseDevis.lieu}}, {{n.devis.adresseDevis.codePostal}}</small></span>
+                                    </li>
+                                </ul>
+                            </td>
+                            <td>
+                                <p ng-repeat=" offre in n.devis.offres" ng-if="offre.prestataireId == current_user._id">
+                                    <strong> {{offre.title}}</strong>
+                                    <br/>
+                                    <span>{{offre.desc}}</span>
+                                    <br/>
+                                    <a href="#" ><strong> {{offre.questions.length}} </strong> Question(s) </a>
+                                    <br/>
+                                    <span ng-repeat="question in offre.questions">
+                                        <span>{{question.contents}}</span> <br/>
+                                    </span>
+                                    <input ng-if="n.devis.state == 'waiting'" type="text" class="form-control" placeholder="Questions"  id="quest{{offre._id}}" />
+                                    <button ng-if="n.devis.state == 'waiting'" class="btn btn-default btn-sm" ng-click="createQuestion(n,offre)">Répondre au question</button>
+                                    <hr/>
+                                </p>
+                            </td>
+                            <td ng-init="showFormOffre = false;">
+                                <div ng-if="n.devis.offres.length == 0">
+                                    <button class="btn btn-default btn-sm" ng-click="showFormOffre=true;">Ajouter</button>
+                                    <form class="form-horizontal form-label-left" ng-show="showFormOffre">
+                                        {{n.offre}}
+                                        <div class="form-group">
+                                            <div class="col-md-12 col-sm-12 col-xs-12">
+                                                <input type="text" class="form-control" placeholder="Title"  ng-model="n.offre.title" />
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <div class="col-md-12 col-sm-12 col-xs-12">
+                                                <textarea class="form-control" rows="3" placeholder="Description"  ng-model="n.offre.desc"></textarea>
+                                            </div>
+                                        </div>
+                                        <div class="ln_solid"></div>
+                                        <div class="form-group">
+                                            <div class="col-md-9 col-sm-9 col-xs-12 col-md-offset-3">
+                                                <button  class="btn btn-default btn-sm" ng-click="createOffre(n)">Envoyer</button>
+                                                <button  class="btn btn-info btn-sm" ng-click="deselect()">cancel</button>
+                                            </div>
+                                        </div>
+                                    </form>
+                                </div>
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

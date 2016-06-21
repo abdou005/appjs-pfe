@@ -1,0 +1,189 @@
+<div class="row">
+<div class="col-md-12 col-xs-12">
+    <div class="x_panel">
+        <div class="x_title">
+            <h2>Contenus <small>ADMIN</small></h2>
+            <ul class="nav navbar-right panel_toolbox">
+                <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+                </li>
+                <li class="dropdown">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"><i class="fa fa-wrench"></i></a>
+                    <ul class="dropdown-menu" role="menu">
+                        <li><a href="#">Settings 1</a>
+                        </li>
+                        <li><a href="#">Settings 2</a>
+                        </li>
+                    </ul>
+                </li>
+                <li><a class="close-link"><i class="fa fa-close"></i></a>
+                </li>
+            </ul>
+                <div class="clearfix"></div>
+        </div>
+        <div class="x_content">
+            <form class="form-horizontal form-label-left" name="formContent">
+
+                <div class="col-md-6 col-xs-12">
+                    <br/>
+                        <div class="col-md-6">
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <div class="col-md-12 col-sm-12 col-xs-12">
+                                        <input type="text" class="form-control" placeholder="Domaine" ng-model="domaine.name" required>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <div class="col-md-12 col-sm-12 col-xs-12">
+                                        <textarea class="form-control" rows="3" placeholder="Description" ng-model="domaine.desc"></textarea>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <div class="input-group">
+                                        <span class="input-group-btn">
+                                            <button type="button" class="btn btn-primary" ng-click="createTag()">+</button>
+                                        </span>
+                                        <input type="text" class="form-control" placeholder="Tags" ng-model="tag.name">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-12" ng-show="tags">
+                                    <a ng-repeat="t in tags" href="" class="btn btn-danger btn-xs" ng-click="removeTag(t)">
+                                        <i class="fa fa-trash-o" ></i> {{t.name}}
+                                    </a>
+
+                            </div>
+                            <div class="col-md-12" ng-show="domaine.tags">
+                                <hr/>
+                                    <a ng-repeat="t in domaine.tags" href="" class="btn btn-danger btn-xs" ng-click="removeTagDom(t,domaine)">
+                                        <i class="fa fa-trash-o" ></i> {{t.name}}
+                                    </a>
+                            </div>
+                        </div>
+                </div>
+                <div class="col-md-6 col-xs-12">
+                    <br/>
+                    <div class="col-md-12">
+                        <div class="form-group">
+                            <div class="input-group">
+                                <input type="text" class="form-control" placeholder="Specialites" ng-model="specialite.name" required>
+                                <span class="input-group-btn">
+                                            <button type="button" class="btn btn-primary" ng-click="createSpecialite()">+</button>
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-12" ng-show="specialites">
+
+                            <a ng-repeat="s in specialites" href="" class="btn btn-danger btn-xs" ng-click="removeSpecialite(s)">
+                                <i class="fa fa-trash-o" ></i> {{s.name}}
+                            </a>
+                    </div>
+                    <div class="col-md-12" ng-show="domaine.specialites">
+                        <hr/>
+                            <a ng-repeat="s in domaine.specialites" href="" class="btn btn-danger btn-xs" ng-click="removeSpecialiteDom(s,domaine)">
+                                <i class="fa fa-trash-o" ></i> {{s.name}}
+                            </a>
+                    </div>
+                </div>
+
+                <div class="clearfix"></div>
+                <div class="ln_solid"></div>
+                <div class="form-group">
+                    <div class="col-md-9 col-sm-9 col-xs-12 col-md-offset-3">
+                        <button  class="btn btn-primary btn-sm" ng-click="deselect()">Cancel</button>
+                        <button  class="btn btn-success btn-sm" ng-click="createDomaine()"  ng-disabled="formContent.$invalid">Create</button>
+                        <button class="btn btn-info btn-sm" ng-click="updateDomaine()"  ng-disabled="formContent.$invalid"> Update</button>
+                    </div>
+                </div>
+            </form>
+            <div class="col-md-12 col-xs-12">
+                <div class="col-md-6">
+                    <form class="form-inline">
+                        <div class="form-group">
+                            <label for="ex3">Show</label>
+                            <select class="form-control input-sm">
+                                <option value="10" selected>10</option>
+                                <option value="25">25</option>
+                                <option value="50">50</option>
+                                <option value="100">100</option>
+                            </select>
+                            entries
+                        </div>
+                    </form>
+                </div>
+                <div class="col-md-6 " >
+                    <form class="form-inline">
+                        <div class="form-group pull-right">
+                            <label for="ex3">Search all columns:</label>
+                            <input type="text" id="ex3" class="form-contro input-sml" placeholder=" ">
+                        </div>
+                    </form>
+                </div>
+
+            </div>
+            <div style="padding: 10px;"></div>
+            <div class="col-md-12 col-xs-12">
+                <table  class="table table-striped responsive-utilities jambo_table">
+                    <thead>
+                    <tr class="headings">
+                        <th>
+                            <input type="checkbox" class="tableflat">
+                        </th>
+                        <th>Nom </th>
+                        <th>Description </th>
+                        <th>Tags </th>
+                        <th>Specialite</th>
+                        <th class=" no-link last"><span class="nobr">Action</span>
+                        </th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr  ng-repeat="d in domaines" >
+                        <td class="a-center ">
+                            <a href="" class="btn btn-primary btn-xs"><i class="fa fa-folder"></i> View </a>
+                        </td>
+                        <td class=" ">{{d.name}}</td>
+                        <td class=" " >{{d.desc}}</td>
+                        <td class=" ">
+                            <a ng-repeat="t in d.tags" href="" class="btn btn-default btn-xs">
+                                <i class="fa fc-agenda-view" ></i> {{t.name}}
+                            </a>
+                        </td>
+                        <td class=" ">
+                            <a ng-repeat="s in d.specialites" href="" class="btn btn-default btn-xs">
+                                <i class="fa fc-agenda-view" ></i> {{s.name}}
+                            </a>
+                        </td>
+                        <td class=" last"><a href="#">
+                            <a href="" class="btn btn-warning btn-xs" ng-click="editDomaine(d._id)"><i class="fa fa-pencil" ></i> Edit </a>
+                            <a href="" class="btn btn-danger btn-xs" ng-click="removeDomaine(d._id)"><i class="fa fa-trash-o" ></i> Delete </a></a>
+                        </td>
+                    </tr>
+                    </tbody>
+
+                </table>
+                <div class="row">
+                    <div class="dataTables_paginate paging_full_numbers" id="example_paginate">
+                        <a tabindex="0" class="first paginate_button paginate_button_disabled" id="example_first">First</a>
+                        <a tabindex="0" class="previous paginate_button paginate_button_disabled" id="example_previous">Previous</a>
+                                                <span>
+                                                    <a tabindex="0" class="paginate_active">1</a>
+                                                    <a tabindex="0" class="paginate_button">2</a>
+                                                    <a tabindex="0" class="paginate_button">3</a>
+                                                    <a tabindex="0" class="paginate_button">4</a>
+                                                </span>
+                        <a tabindex="0" class="next paginate_button" id="example_next">Next</a>
+                        <a tabindex="0" class="last paginate_button" id="example_last">Last</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</div>

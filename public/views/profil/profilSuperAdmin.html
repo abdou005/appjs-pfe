@@ -1,0 +1,269 @@
+<div class="row">
+    <div class="col-md-12 col-xs-12">
+        <div class="x_panel">
+            <div class="x_title">
+                <h2>Ajouter un utilisateur <small>Super Admin</small></h2>
+                <ul class="nav navbar-right panel_toolbox">
+                    <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+                    </li>
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"><i class="fa fa-wrench"></i></a>
+                        <ul class="dropdown-menu" role="menu">
+                            <li><a href="#">Settings 1</a>
+                            </li>
+                            <li><a href="#">Settings 2</a>
+                            </li>
+                        </ul>
+                    </li>
+                    <li><a class="close-link"><i class="fa fa-close"></i></a>
+                    </li>
+                </ul>
+                <div class="clearfix"></div>
+            </div>
+            <div class="x_content" ng-init=" showprest=false;">
+                <br />
+                <form class="form-horizontal form-label-left" name="formInscrit" novalidate>
+
+                    <div class="form-group">
+                        <label class="control-label col-md-2 col-sm-2 col-xs-12">Nom <span class="required">*</span></label>
+                        <div class="col-md-4 col-sm-4 col-xs-12">
+                            <input type="text" class="form-control" placeholder="Nom" ng-model="user.firstname"  required>
+                        </div>
+
+                        <label class="control-label col-md-2 col-sm-2 col-xs-12">Prenom <span class="required">*</span></label>
+                        <div class="col-md-4 col-sm-4 col-xs-12">
+                            <input type="text" class="form-control" placeholder="Prenom" ng-model="user.lastname" required>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label col-md-2 col-sm-2 col-xs-12">E-mail <span class="required">*</span></label>
+                        <div class="col-md-4 col-sm-4 col-xs-12">
+                            <input type="email"  class="form-control" placeholder="E-mail" ng-model="user.email" required>
+
+                        </div>
+                        <label class="control-label col-md-2 col-sm-2 col-xs-12">Password <span class="required">*</span></label>
+                        <div class="col-md-4 col-sm-4 col-xs-12">
+                            <input type="password" class="form-control" placeholder="******" ng-model="user.password" required>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label col-md-2 col-sm-2 col-xs-12">Tel </label>
+                        <div class="col-md-4 col-sm-4 col-xs-12">
+                            <input type="tel" class="form-control" placeholder="Mobile" ng-model="user.telMobil">
+                        </div>
+                        <label class="control-label col-md-2 col-sm-2 col-xs-12">Tel </label>
+                        <div class="col-md-4  col-sm-4 col-xs-12">
+                            <input type="tel" class="form-control" placeholder="Bureau" ng-model="user.telDomi">
+                        </div>
+
+                    </div>
+                    {{user}}
+                    <div class="form-group">
+                        <label class="col-md-3 col-md-offset-2 col-sm-3 col-xs-12 control-label">Choisir un type
+                            <br>
+                            <small class="text-navy">client/prestataire/ADMIN</small>
+                        </label>
+                        <div class="col-md-4 col-sm-4 col-xs-12">
+                            <label for="client">
+                                <input type="radio" id="client" name="typeuser" ng-model="user.typeUser" value="client"  required>
+                                <span ng-click="showprest=false;">Client</span>
+                            </label>
+                            <label for="artisan">
+                                <input type="radio" id="artisan" name="typeuser" ng-model="user.typeUser" value="artisan" required>
+                                <span ng-click="showprest=true;">Prestataire</span>
+                            </label>
+                            <label for="admin">
+                                <input type="radio" id="admin" name="typeuser" ng-model="user.typeUser" value="admin" required>
+                                <span ng-click="showprest=false;">Admin</span>
+                            </label>
+                        </div>
+                    </div>
+                    <!-- Prestataire-->
+                    <div ng-show="showprest">
+                        <div class="form-group">
+                            <label class="col-md-3 col-md-offset-2 col-sm-3 col-xs-12 control-label">type
+                                <br>
+                                <small class="text-navy">Artisan/Societe</small>
+                            </label>
+                            <div class="col-md-4 col-sm-4 col-xs-12">
+                                <label for="autoentropeneur">
+                                    <input type="radio"  id="autoentropeneur" name="typeprest" ng-model="user.type" value="autoentropeneur" > Auto entrepreneur
+                                </label>
+                                <label for="societe">
+                                    <input type="radio" id="societe" name="typeprest" ng-model="user.type" value="societe"> Societe
+                                </label>
+                            </div>
+                        </div>
+                        <div class="form-group" ng-if="!user.dateDebut">
+                            <label class="control-label col-md-3 col-md-offset-2 col-sm-3 col-xs-12">Date Debut <span class="required">*</span></label>
+                            <div class="col-md-4 col-sm-4 col-xs-12">
+                                <input type="date" class="form-control" ng-model="user.dateDebut">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label col-md-3 col-md-offset-2 col-sm-3 col-xs-12">Effectif </label>
+                            <div class="col-md-4 col-sm-4 col-xs-12">
+                                <input type="number" class="form-control" placeholder="0" ng-model="user.effectif">
+                            </div>
+                        </div>
+                    </div>
+                    <!--  // Prestataire-->
+                    <div class="form-group">
+                        <label class="col-md-3 col-md-offset-2 col-sm-3 col-xs-12 control-label">Verifier
+                            <br>
+                            <small class="text-navy">etat/Conf/Dispo</small>
+                        </label>
+                        <div class="col-md-4 col-sm-4 col-xs-12">
+                            <!--
+                                <label for="etatUser" ng-init="activer = false">
+                                    <input type="checkbox" id="etatUser" class="js-switch" ng-model="user.etat" ng-checked="activer" />
+                                    <span>Etat</span>
+                                </label>
+                            -->
+                            <label for="confiUser" ng-init="confirmer = false">
+                                <input type="checkbox" id="confiUser" class="js-switch" ng-model="user.confirmer" ng-checked="confirmer" />
+                                <span >Confirmer</span>
+                            </label>
+
+                            <label for="dispoUser" ng-init="dispo = false" >
+                                <input type="checkbox" id="dispoUser" class="js-switch" ng-model="user.dispo" ng-checked="dispo" />
+                                <span>Dispo</span>
+                            </label>
+                        </div>
+                    </div>
+                    <div class="ln_solid"></div>
+                    <div class="form-group">
+                        <div class="col-md-3 col-sm-3 col-xs-12 col-md-offset-2">
+                            <button type="submit" class="btn btn-success btn-block" ng-click="createUser()" ng-disabled="formInscrit.$invalid">Enregistrer</button>
+                        </div>
+                        <div class="col-md-3 col-sm-3 col-xs-12">
+                            <button type="reset" class="btn btn-primary btn-block" ng-click="deselect()" >Cancel</button>
+                        </div>
+                        <div class="col-md-6 col-sm-6 col-xs-12 col-md-offset-2">
+                            <div class="alert alert-success alert-dismissible fade in" role="alert" ng-show="showConfirmLogin">
+                                <button type="button" class="close" ng-click="showConfirmLogin = false"><span>×</span>
+                                </button>
+                                <strong>{{message}} </strong>
+                            </div>
+                            <div class="alert alert-danger alert-dismissible fade in" role="alert" ng-show="showErrorLogin">
+                                <button type="button" class="close" ng-click="showErrorLogin = false" ><span >×</span>
+                                </button>
+                                <strong> {{error_message}} </strong>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-12 col-xs-12">
+        <div class="x_panel">
+            <div class="x_title">
+                <h2>Chercher un utilisateur</h2>
+                <ul class="nav navbar-right panel_toolbox">
+                    <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+                    </li>
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"><i class="fa fa-wrench"></i></a>
+                        <ul class="dropdown-menu" role="menu">
+                            <li><a href="#">Settings 1</a>
+                            </li>
+                            <li><a href="#">Settings 2</a>
+                            </li>
+                        </ul>
+                    </li>
+                    <li><a class="close-link"><i class="fa fa-close"></i></a>
+                    </li>
+                </ul>
+                <div class="clearfix"></div>
+            </div>
+            <div class="x_content">
+                <div class="row">
+                    <div class="col-md-6">
+                        <form class="form-inline">
+                            <div class="form-group">
+                                <label for="ex3">Show</label>
+                                <select class="form-control input-sm" ng-model="entries">
+                                    <option value="1">1</option>
+                                    <option value="2">2</option>
+                                    <option value="10">10</option>
+                                    <option value="25">25</option>
+                                    <option value="50">50</option>
+                                    <option value="100">100</option>
+                                </select>
+                                entries
+                            </div>
+                        </form>
+                    </div>
+                    <div class="col-md-6 " >
+                        <form class="form-inline">
+                            <div class="form-group pull-right">
+                                <label for="ex3">Search all columns:</label>
+                                <input type="text" id="ex3" class="form-contro input-sml" placeholder="" ng-model="searchTxt">
+                            </div>
+                        </form>
+                    </div>
+
+                </div>
+                <div style="padding: 10px;"></div>
+                <div class="row">
+                    <table id="example" class="table table-striped responsive-utilities jambo_table">
+                        <thead>
+                        <tr class="headings">
+                            <th>
+                                <input type="checkbox" class="tableflat">
+                            </th>
+                            <th>Nom </th>
+                            <th colspan="2">Type</th>
+                            <th>email </th>
+                            <th>Date Debut </th>
+                            <th>Status </th>
+                            <th>Confirmer </th>
+                            <th class=" no-link last"><span class="nobr">Action</span>
+                            </th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr ng-repeat="u in users | filter:searchTxt | limitTo:entries" >
+                            <td class="a-center ">
+                                <a href="" class="btn btn-primary btn-xs"><i class="fa fa-folder"></i> View </a>
+                            </td>
+                            <td class=" "><i class="success fa fa-long-arrow-up"> &nbsp;</i>
+                                {{u.firstname}} {{u.lastname}}
+                            </td>
+                            <td class=" " ><span ng-repeat="v in u.typeUser">{{v}}</span></td>
+                            <td class=" " >
+                                <a ng-repeat="s in u.specialites" href="" class="btn btn-default btn-xs">
+                                    <i class="fa fc-agenda-view" ></i> {{s.name}}
+                                </a>
+                            </td>
+                            <td class=" ">{{u.email}} || {{u.password}}</td>
+                            <td class=" ">{{u.created_at  | date : format : timezone}}</td>
+                            <td class=" " ><span ng-repeat="v in u.statut">{{v}}</span></td>
+                            <td class="a-right a-right ">{{u.confirmer}}</td>
+                            <td class=" last"><a href="#">
+                                <a href="" class="btn btn-warning btn-xs" ><i class="fa fa-pencil" ></i> Edit </a>
+                                <a href="" class="btn btn-danger btn-xs" ><i class="fa fa-trash-o" ></i> Delete </a></a>
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+                    <div class="row">
+                        <div class="dataTables_paginate paging_full_numbers" id="example_paginate">
+                            <a tabindex="0" class="first paginate_button paginate_button_disabled" id="example_first">First</a>
+                            <a tabindex="0" class="previous paginate_button paginate_button_disabled" id="example_previous">Previous</a>
+                                                <span>
+                                                    <a tabindex="0" class="paginate_active">1</a>
+                                                    <a tabindex="0" class="paginate_button">2</a>
+                                                    <a tabindex="0" class="paginate_button">3</a>
+                                                    <a tabindex="0" class="paginate_button">4</a>
+                                                </span>
+                            <a tabindex="0" class="next paginate_button" id="example_next">Next</a>
+                            <a tabindex="0" class="last paginate_button" id="example_last">Last</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

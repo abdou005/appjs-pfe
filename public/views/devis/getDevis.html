@@ -1,0 +1,147 @@
+<div class="row">
+    <div class="col-md-12 col-sm-12 col-xs-12">
+        <div class="x_panel">
+            <div class="x_title">
+                <div class="col-md-6 col-sm-12 col-xs-12">
+                    <article class="media event">
+                        <a class="pull-left date">
+                            <p class="month">{{devis.created_at  | date : 'MMM' }}</p>
+                            <p class="day">{{devis.created_at  | date : 'dd' }}</p>
+                        </a>
+                        <div class="media-body">
+                            <a class="title" href="#">{{devis.title}}</a>
+                            <p>{{devis.specialites.name}}</p>
+                        </div>
+                    </article>
+                </div>
+                <div class="col-md-6 col-sm-12 col-xs-12">
+                    <ul class="nav navbar-right panel_toolbox">
+                       <small>Respect des délais : </small> {{devis.durationWork}}
+                    </ul>
+                </div>
+                <div class="clearfix"></div>
+            </div>
+            <div class="x_content">
+                    <div class="col-md-12 col-sm-12 col-xs-12">
+                        <div class="col-md-6 col-sm-12 col-xs-12">
+                            <div class="col-md-12 col-sm-12 col-xs-12">
+                                <span ng-show="devis.state[0] == 'waiting'" class="badge bg-orange">En Attente</span>
+                                <span ng-show="devis.state[0] == 'confirm'" class="badge bg-green">Confirmer</span>
+                                <p>{{devis.contents}}</p>
+                                <hr>
+                            </div>
+                            <div class="col-md-12 col-sm-12 col-xs-12">
+                                <h3 class="green"><i class="fa fa-paint-brush"></i>Photos</h3>
+                                <img ng-repeat="m in devis.medias" src="{{m.urlMedia}}" alt="{{m.name}}" class="img-thumbnail" style="width: 100px; height: 100px;">
+                                <hr>
+                            </div>
+                            <div class="col-md-12 col-sm-12 col-xs-12">
+                                <div class="col-md-6 col-sm-12 col-xs-12">
+                                    <h3 class="green"><i class="fa fa-user"></i>Contact</h3>
+                                    <span><small>{{client.firstname}} {{client.lastname}} </small></span>
+                                    <br>
+                                    <span><i class="fa fa-envelope"></i> <small>{{client.email}}</small> </span>
+                                    <br>
+                                    <span><i class="fa fa-phone-square"></i> <small>{{client.telMobil}}</small></span>
+                                </div>
+                                <div ng-if="client._id != current_user._id" class="col-md-6 col-sm-12 col-xs-12">
+                                    <div class="clear"></div>
+                                    <button class="btn btn-primary btn-xs pull-right" ng-click="showFormOffre()"><span class="glyphicon glyphicon-edit"></span> Proposer un offre</button>
+                                </div>
+                                <div class="clear"></div>
+                            </div>
+                            <div class="col-md-12 col-sm-12 col-xs-12" ng-if="devis.state[0] == 'waiting'">
+                                <form class="form-horizontal form-label-left" ng-show="showFormulaireOffre">
+                                    <div class="form-group">
+                                        <div class="col-md-12 col-sm-12 col-xs-12">
+                                            <input type="text" class="form-control" placeholder="Title" id="title" ng-model="offre.title" />
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <div class="col-md-12 col-sm-12 col-xs-12">
+                                            <textarea class="form-control" rows="3" placeholder="Description" id="desc" ng-model="offre.desc"></textarea>
+                                        </div>
+                                    </div>
+                                    <div class="ln_solid"></div>
+                                    <div class="form-group">
+                                        <div class="col-md-9 col-sm-9 col-xs-12 col-md-offset-3">
+                                            <button type="submit" class="btn btn-default btn-sm" ng-click="createOffre()">Envoyer</button>
+                                            <button type="reset" class="btn btn-info btn-sm" ng-click="deselect()">cancel</button>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                        <div class="col-md-4 col-sm-12 col-xs-12 pull-right">
+                            <button class="btn btn-default btn-xs" ng-click="refrechMap()"><span class="glyphicon glyphicon-refresh"></span>Adresse</button>
+                            <div id="map" style="width:350px; height:300px"></div>
+                        </div>
+                        <div  class="col-md-12 col-sm-12 col-xs-12">
+                            <h6 class="green" ng-click="getOffres()">{{devis.offres.length}} Offre</a></h6>
+                            <table ng-if="client._id == current_user._id"  class="table table-striped projects">
+                                <thead>
+                                <tr>
+                                    <th style="width: 20%">Contact</th>
+                                    <th>Experience</th>
+                                    <th>Lieu</th>
+                                    <th style="width: 20%">Offre</th>
+                                </tr>
+                                </thead>
+                                <tbody >
+                                <tr ng-repeat="of in listPrest">
+                                    <td>
+                                        <a>{{of.prestataire.firstname}} {{of.prestataire.lastname}}</a>
+                                        <br>
+                                        <small> {{of.prestataire.email}}</small>
+                                        <br>
+                                        <span><i class="fa fa-phone"></i> {{of.prestataire.telMobil}}</span>
+                                        <br>
+                                        <span><i class="fa fa-mobile-phone"></i> {{of.prestataire.telDomi}}</span>
+                                    </td>
+                                    <td>
+                                        <span><small>Depuis :</small>  {{of.prestataire.dateDebut | date : format : timezone}}</span>
+                                        <br>
+                                                <span><small>notes :</small>
+                                                    <a>4.0</a>
+                                                    <br>
+                                                    <a href="#"><span class="fa fa-star"></span></a>
+                                                    <a href="#"><span class="fa fa-star"></span></a>
+                                                    <a href="#"><span class="fa fa-star"></span></a>
+                                                    <a href="#"><span class="fa fa-star"></span></a>
+                                                    <a href="#"><span class="fa fa-star-o"></span></a>
+                                                </span>
+                                    </td>
+                                    <td>
+                                        <a ng-repeat="adr in of.prestataire.adresses" href="" class="btn btn-default btn-xs">
+                                            <i class="fa fc-agenda-view" ></i> {{adr.lieu}}
+                                        </a>
+                                    </td>
+                                    <td>
+                                        <a>{{of.newOf.title}}</a>
+                                        <br>
+                                        <span>{{of.newOf.desc}}</span>
+                                        <span>{{of.newOf.prestataireId}}</span>
+                                        <button ng-if="devis.state[0] == 'waiting'" class="btn btn-default btn-sm" ng-click="confirmerOffre(of.newOf.prestataireId)">Confirmer</button>
+                                    </td>
+                                </tr>
+                                </tbody>
+                            </table>
+                            <p ng-if="client._id != current_user._id" ng-click="getOffresPres()"> vous avez proposez {{offresPres.length}} offre(s)</p>
+                            <div ng-if="client._id != current_user._id" class="col-md-6 col-sm-12 col-xs-12">
+                                <article ng-repeat="o in offresPres" class="media event">
+                                    <a class="pull-left date">
+                                        <p class="month">{{o.created_at  | date : 'MMM' }}</p>
+                                        <p class="day">{{o.created_at  | date : 'dd' }}</p>
+                                    </a>
+                                    <div class="media-body">
+                                        <a class="title" href="#">{{o.title}}</a>
+                                        <p>{{o.desc}}</p>
+                                    </div>
+                                </article>
+                            </div>
+                        </div>
+                    </div>
+            </div>
+        </div>
+    </div>
+</div>

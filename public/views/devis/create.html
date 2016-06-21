@@ -1,0 +1,538 @@
+<style>
+    .rating{
+        color: #a9a9a9;
+        margin: 0;
+        padding: 0;
+    }
+
+    ul.rating {
+        display: inline-block;
+    }
+
+    .rating li {
+        list-style-type: none;
+        display: inline-block;
+        padding: 1px;
+        text-align: center;
+        font-weight: bold;
+        cursor: pointer;
+    }
+
+    .rating .filled {
+        color: #1ABB9C;
+    }
+
+    .thumbUpload {
+        width: 75px;
+        height: 75px;
+        float: none;
+        position: relative;
+        top: 7px;
+        border: solid #1ABB9C;
+    }
+    .btnTrash{
+        position: relative;
+        top: 7px;
+    }
+    form.progressUpload {
+        line-height: 15px;
+    }
+    .progressUpload {
+        display: inline-block;
+        width: 100px;
+        border: 3px groove #CCC;
+    }
+
+    .progress div {
+        font-size: smaller;
+        background: orange;
+        width: 0;
+    }
+</style>
+<div class="row">
+    <div class="col-md-12 col-xs-12">
+        <div class="x_panel">
+        <div class="x_title">
+            <h2>Obtenez 5 DEVIS  é vf </h2>
+            <ul class="nav navbar-right panel_toolbox">
+                Comparez les devis des meilleurs prestataires vfvfv
+            </ul>
+            <div class="clearfix"></div>
+        </div>
+        <div class="x_content">
+                <div class="col-md-12 col-xs-12">
+                    <!-- Smart Wizard -->
+                    <div id="wizard" class="form_wizard wizard_horizontal">
+                        <ul class="wizard_steps">
+                            <li>
+                                <a href="#step-1">
+                                    <span class="step_no">1</span>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="#step-2">
+                                    <span class="step_no">2</span>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="#step-3">
+                                    <span class="step_no">3</span>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="#step-4">
+                                    <span class="step_no">4</span>
+                                </a>
+                            </li>
+                        </ul>
+                        <form class="form-horizontal form-label-left" name="formDevis" novalidate>
+                        <div id="step-1">
+                            <h2 class="green" align="center"> <i class="fa fa-edit"></i> Quelques informations à propos de vos travaux</h2>
+                                <div class="form-group">
+                                    <label class="control-label col-md-3 col-sm-3 col-xs-12">Specialites <span class="required" ng-show="formDevis.specialite.$error.required" style="color:red;">*</span></label>
+                                    <div class="col-md-6 col-sm-6 col-xs-12">
+                                        <select class="select2_group form-control" ng-model="devis.specialite" name="specialite" for="specialite" required>
+                                            <optgroup ng-repeat="domaine in domaines" label="{{domaine.name}}">
+                                                <option ng-repeat="specialite in domaine.specialites"  id="specialite" value="{{specialite.name}}">{{specialite.name}}</option>
+                                            </optgroup>
+                                        </select>
+                                        <i class="fa fa-ban" ng-show="formDevis.specialite.$error.required" style="color:red;"> required</i>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="control-label col-md-3 col-sm-3 col-xs-12">Type  <span class="required" ng-show="formDevis.type.$error.required" style="color:red;">*</span></label>
+                                    <div class="col-md-6 col-sm-6 col-xs-12">
+                                        <div id="type" class="btn-group" data-toggle="buttons">
+                                            <label class="btn btn-default active" data-toggle-class="btn-primary" data-toggle-passive-class="btn-default" for="typeNor" ng-click="devis.type = 'normal'">
+                                                <input type="radio" name="type"  id="typeNor" ng-model="devis.type" value="normal" required> &nbsp; Normal &nbsp;
+                                            </label>
+                                            <label class="btn btn-warning" data-toggle-class="btn-primary" data-toggle-passive-class="btn-default"  for="typeUrg" ng-click="devis.type = 'emergency'">
+                                                <input type="radio" name="type"  id="typeUrg" ng-model="devis.type" value="emergency" required> Urgence
+                                            </label>
+                                        </div>
+                                        <i class="fa fa-ban" ng-show="formDevis.type.$error.required" style="color:red;"> required</i>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="control-label col-md-3 col-sm-3 col-xs-12">Date des travaux  <span class="required" ng-show="formDevis.durationWork.$error.required" style="color:red;">*</span></label>
+                                    <div class="col-md-6 col-sm-6 col-xs-12">
+                                        <div id="durration" class="btn-group" data-toggle="buttons">
+                                            <label class="btn btn-default active" data-toggle-class="btn-primary" data-toggle-passive-class="btn-default"  ng-click="devis.durationWork = 'sur-le-champ'">
+                                                <input type="radio" name="durationWork"   ng-model="devis.durationWork" value="sur-le-champ" required> &nbsp; sur-le-champ &nbsp;
+                                            </label>
+                                            <label class="btn btn-default" data-toggle-class="btn-primary" data-toggle-passive-class="btn-default"   ng-click="devis.durationWork = '1 - 3 mois'">
+                                                <input type="radio" name="durationWork"   ng-model="devis.durationWork" value="1 - 3 mois" required> 1 - 3 mois
+                                            </label>
+                                            <label class="btn btn-default" data-toggle-class="btn-primary" data-toggle-passive-class="btn-default"   ng-click="devis.durationWork = '3 - 6 mois'">
+                                                <input type="radio" name="durationWork"   ng-model="devis.durationWork" value="3 - 6 mois" required> 3 - 6 mois
+                                            </label>
+                                            <label class="btn btn-default" data-toggle-class="btn-primary" data-toggle-passive-class="btn-default"   ng-click="devis.durationWork = '6 mois et +'">
+                                                <input type="radio" name="durationWork"   ng-model="devis.durationWork" value="6 mois et +" required> 6 mois et +
+                                            </label>
+                                        </div>
+                                        <i class="fa fa-ban" ng-show="formDevis.durationWork.$error.required" style="color:red;"> required</i>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="control-label col-md-3 col-sm-3 col-xs-12">Lieu des travaux
+                                    </label>
+                                    <div class="col-md-6 col-sm-6 col-xs-12">
+                                        <label class="btn btn-default active" data-toggle-class="btn-primary" data-toggle-passive-class="btn-default">
+                                            <input type="checkbox" class="js-switch" ng-disabled="true" checked />
+                                            <span>Default</span>
+                                        </label>
+                                        <strong>OU</strong>
+                                        <a href="/createAdresse">autre</a>
+                                    </div>
+                                </div>
+                        </div>
+                        <div id="step-2">
+                            <h2 class="green" align="center">Que souhaitez-vous faire ?</h2>
+                            <div class="form-group">
+                                <label class="control-label col-md-3 col-sm-3 col-xs-12" for="title">Titre <span class="required" ng-show="formDevis.title.$error.required" style="color:red;">*</span>
+                                </label>
+                                <div class="col-md-6 col-sm-6 col-xs-12" id="title">
+                                    <input type="text" class="form-control" name="title"   ng-model="devis.title" placeholder="Pose 5 fenetre Pvc" required>
+                                </div>
+                                <i class="fa fa-ban" ng-show="formDevis.title.$error.required" style="color:red;"> required</i>
+                            </div>
+                            <div class="form-group">
+                                <label class="control-label col-md-3 col-sm-3 col-xs-12" for="desc">Description <span class="required" ng-show="formDevis.contents.$error.required" style="color:red;">*</span>
+                                    <span ng-show="formDevis.contents.$error.minlength" style="color:red;">30 minimum</span>
+                                </label>
+                                <div class="col-md-6 col-sm-6 col-xs-12" id="desc">
+                                    <textarea class="form-control" rows="5" name="contents" ng-model="devis.contents" placeholder='autre feneter plus des bois avec un peut de peintre' ng-minlength="30" required></textarea>
+                                </div>
+                                <i class="fa fa-ban" ng-show="formDevis.contents.$error.required" style="color:red;"> required</i>
+                                <i class="fa fa-ban" ng-show="formDevis.contents.$error.minlength" style="color:red;"> 30 minimum</i>
+                            </div>
+                            <h3 class="green" align="center"><i class="fa fa-paint-brush"></i> <strong>Photos</strong> (facultatif)</h3>
+                            <div class="col-md-12 col-sm-12 col-xs-12">
+                                <div class="col-md-3 col-sm-3 col-xs-12">
+                                    <input type="file" ngf-select ng-model="file1" name="file1"
+                                           ngf-pattern="'image/*'" accept="image/*" ngf-max-size="2MB"
+                                           ngf-model-invalid="errorFile">
+                                    <i ng-show="formDevis.file1.$error.maxSize" style="color:red;">File too large
+                                        {{errorFile.size / 1000000|number:1}}MB: max 2M</i>
+                                    <img ng-show="formDevis.file1.$valid" ngf-thumbnail="file1" class="thumbUpload">
+                                    <br/>
+                                    <button class="btn btn-danger btn-xs btnTrash" ng-click="file1 = null" ng-show="file1"><i class="fa fa-trash-o"></i></button>
+                                    <br/>
+                                    <span class="progressUpload" ng-show="file1.progress >= 0">
+                                                        <div style="width:{{file1.progress}}%" ng-bind="file1.progress + '%'">
+                                                        </div>
+                                                    </span>
+                                    <span ng-show="file1.result">Upload Successful</span>
+                                    <span class="err" ng-show="errorMsg1" style="color:red;">{{errorMsg1}}</span>
+                                </div>
+                                <div class="col-md-3 col-sm-3 col-xs-12" ng-show="file1">
+                                    <input type="file" ngf-select ng-model="file2" name="file2"
+                                           ngf-pattern="'image/*'" accept="image/*" ngf-max-size="2MB"
+                                           ngf-model-invalid="errorFile">
+                                    <i ng-show="formDevis.file2.$error.maxSize" style="color:red;">File too large
+                                        {{errorFile.size / 1000000|number:1}}MB: max 2M</i>
+                                    <img ng-show="formDevis.file2.$valid" ngf-thumbnail="file2" class="thumbUpload">
+                                    <br/>
+                                    <button class="btn btn-danger btn-xs btnTrash" ng-click="file2 = null" ng-show="file2"><i class="fa fa-trash-o"></i></button>
+                                    <br/>
+                                                <span class="progressUpload" ng-show="file2.progress >= 0">
+                                                    <div style="width:{{file2.progress}}%" ng-bind="file2.progress + '%'">
+                                                    </div>
+                                                </span>
+                                    <span ng-show="file2.result">Upload Successful</span>
+                                    <span class="err" ng-show="errorMsg2" style="color:red;">{{errorMsg2}}</span>
+                                </div>
+                                <div class="col-md-3 col-sm-3 col-xs-12" ng-show="file2">
+                                    <input type="file" ngf-select ng-model="file3" name="file3"
+                                           ngf-pattern="'image/*'" accept="image/*" ngf-max-size="2MB"
+                                           ngf-model-invalid="errorFile">
+                                    <i ng-show="formDevis.file3.$error.maxSize" style="color:red;">File too large
+                                        {{errorFile.size / 1000000|number:1}}MB: max 2M</i>
+                                    <img ng-show="formDevis.file3.$valid" ngf-thumbnail="file3" class="thumbUpload">
+                                    <br/>
+                                    <button class="btn btn-danger btn-xs btnTrash" ng-click="file3 = null" ng-show="file3"><i class="fa fa-trash-o"></i></button>
+                                    <br/>
+                                                <span class="progressUpload" ng-show="file3.progress >= 0">
+                                                    <div style="width:{{file3.progress}}%" ng-bind="file3.progress + '%'">
+                                                    </div>
+                                                </span>
+                                    <span ng-show="file3.result">Upload Successful</span>
+                                    <span class="err" ng-show="errorMsg3" style="color:red;">{{errorMsg3}}</span>
+                                </div>
+                                <div class="col-md-3 col-sm-3 col-xs-12" ng-show="file3">
+                                    <input type="file" ngf-select ng-model="file4" name="file4"
+                                           ngf-pattern="'image/*'" accept="image/*" ngf-max-size="2MB"
+                                           ngf-model-invalid="errorFile">
+                                    <i ng-show="formDevis.file4.$error.maxSize" style="color:red;">File too large
+                                        {{errorFile.size / 1000000|number:1}}MB: max 2M</i>
+                                    <img ng-show="formDevis.file4.$valid" ngf-thumbnail="file4" class="thumbUpload">
+                                    <br/>
+                                    <button class="btn btn-danger btn-xs btnTrash" ng-click="file4 = null" ng-show="file4"><i class="fa fa-trash-o"></i></button>
+                                    <br/>
+                                                <span class="progressUpload" ng-show="file4.progress >= 0">
+                                                    <div style="width:{{file4.progress}}%" ng-bind="file4.progress + '%'">
+                                                    </div>
+                                                </span>
+                                    <span ng-show="file4.result">Upload Successful</span>
+                                    <span class="err" ng-show="errorMsg4" style="color:red;">{{errorMsg4}}</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div id="step-3">
+                            <h2 class="green" align="center"><i class="fa fa-eye"></i> Aperçu de votre annonce </h2>
+                            <ul class="list-unstyled timeline">
+                                <li>
+                                    <div class="block">
+                                        <div class="tags">
+                                            <a href="" class="tag">
+                                                <span>Annonce</span>
+                                            </a>
+                                        </div>
+                                        <div class="block_content">
+                                            <h2 class="title">
+                                                <a>{{devis.title}}</a>
+                                            </h2>
+                                            <div class="byline">
+                                                <span>{{devis.specialite.name}}</span> par <a>{{current_user.email}} de type </a> {{devis.type}}
+                                            </div>
+                                            <p>Date des travaux : {{devis.durationWork}}</p>
+                                            <p class="excerpt"> {{devis.contents}}<a>Lire&nbsp;la suite</a>
+                                            </p>
+                                        </div>
+                                    </div>
+                                </li>
+                                <li>
+                                    <div class="block">
+                                        <div class="tags">
+                                            <a href="" class="tag">
+                                                <span>Lieu des travaux</span>
+                                            </a>
+                                        </div>
+                                        <div class="block_content">
+                                            <h2 class="title">
+                                                <a>Vous pouvez Verifier votre lieu des travaux</a>
+                                            </h2>
+                                            <div class="byline">
+                                                <span>{{adresseDevis.updated_at}}</span>
+                                                <button class="btn btn-default btn-xs" ng-click="refrechMap()"><span class="glyphicon glyphicon-refresh"></span></button>
+                                            </div>
+                                            <p class="excerpt">
+                                            <div id="map" style="width:400px; height:300px"></div>
+                                            </p>
+                                        </div>
+                                    </div>
+                                </li>
+                                <li>
+                                    <div class="block">
+                                        <div class="tags">
+                                            <a href="" class="tag">
+                                                <span>Photos</span>
+                                            </a>
+                                        </div>
+                                        <div class="block_content">
+                                            <h2 class="title">
+                                                <a></a>
+                                            </h2>
+                                            <div class="byline">
+                                                <span></span>  <a></a>
+                                            </div>
+                                            <p class="excerpt">
+                                                <img ng-show="formDevis.file1.$valid" ngf-thumbnail="file1" class="thumbUpload">
+                                                <img ng-show="formDevis.file2.$valid" ngf-thumbnail="file2" class="thumbUpload">
+                                                <img ng-show="formDevis.file3.$valid" ngf-thumbnail="file3" class="thumbUpload">
+                                                <img ng-show="formDevis.file4.$valid" ngf-thumbnail="file4" class="thumbUpload">
+                                                <br/>
+                                                <br/>
+                                            </p>
+                                        </div>
+                                    </div>
+                                </li>
+                            </ul>
+
+                            <div class="form-group">
+                                <label class="control-label col-md-3 col-sm-3 col-xs-12">Type de Contact  <span class="required" ng-show="formDevis.contactType.$error.required" style="color:red;">*</span></label>
+                                <div class="col-md-6 col-sm-6 col-xs-12">
+                                    <div  class="btn-group" data-toggle="buttons">
+                                        <label class="btn btn-info active" data-toggle-class="btn-primary" data-toggle-passive-class="btn-default"  ng-click="devis.typeContact = 'manual'" title="aux prestataires de mon choix">
+                                            <input type="radio" name="contactType"   ng-model="devis.typeContact" value="manual" required> &nbsp; Contact manuel &nbsp;
+                                        </label>
+                                        <label class="btn btn-info" data-toggle-class="btn-primary" data-toggle-passive-class="btn-default"   ng-click="devis.typeContact= 'auto'" title="aux prestataires interesses par mon annonce">
+                                            <input type="radio" name="contactType"   ng-model="devis.typeContact" value="auto" required> Contact automatique
+                                        </label>
+                                    </div>
+                                    <i class="fa fa-ban" ng-show="formDevis.contactType.$error.required" style="color:red;"> required</i>
+                                </div>
+                            </div>
+                        </div>
+                        <div id="step-4">
+                            <h3 class="green" align="center"><i class="fa fa-users"></i> Verifier vos contacts</h3>
+                            <div class="col-md-12 col-sm-12 col-xs-12">
+                                <div class="col-md-3 col-sm-3 col-xs-12">
+                                    <h2>Votre Devis</h2>
+                                    <p><small>Date : </small>{{devis.created_at | date : format : timezone}}</p>
+                                    <p><small>Specialites : </small>{{devis.specialites.name}}</p>
+                                    <p><small>titre : </small>{{devis.title}}</p>
+                                    <p><small>Description : </small>{{devis.contents}}</p>
+                                    <p><small>Date des travaux : </small>{{devis.durationWork}}</p>
+                                    <p>
+                                        <img ng-show="formDevis.file1.$valid" ngf-thumbnail="file1" class="thumbUpload">
+                                        <img ng-show="formDevis.file2.$valid" ngf-thumbnail="file2" class="thumbUpload">
+                                        <img ng-show="formDevis.file3.$valid" ngf-thumbnail="file3" class="thumbUpload">
+                                        <img ng-show="formDevis.file4.$valid" ngf-thumbnail="file4" class="thumbUpload">
+                                    </p>
+                                      <button ng-show="showBtnSendDevis" type="submit" class="btn btn-danger btn-block" ng-click="setInformation()" ng-disabled="formDevis.$invalid">Envoyer Votre Devis</button>
+                                </div>
+                                <div class="col-md-9 col-sm-9 col-xs-12" ng-if="devis._id != null">
+                                    <h2>Vos contacts</h2>
+                                    <p ng-if="devis.typeContact == 'auto'">Vous avez choisi de communiquer automatiquement vos informations de contact.</p>
+                                    <p ng-if="devis.typeContact == 'manual'">Vous avez choisi de ne pas communiquer vos informations de contact automatiquement.</p>
+                                    <small ng-if="devis.typeContact == 'manual'">Il vous reste  <span  class="badge bg-red">{{nbrMax}}</span> devis selon votre choix </small>
+                                        <table class="table table-striped projects" ng-if="devis.typeContact == 'manual' && listePresataire.length > 0">
+                                        <thead>
+                                        <tr>
+                                            <th style="width: 35%">Contact</th>
+                                            <th style="width: 10%">Experience</th>
+                                            <th style="width: 25%">Spécialites</th>
+                                            <th style="width: 25%">Lieu</th>
+                                            <th style="width: 5%">Envoyer</th>
+                                        </tr>
+                                        </thead>
+                                        <tbody >
+                                        <tr ng-repeat="pres in listePresataire | filter:devis.specialite" ng-if="pres.typeUser[0] =='artisan' && pres.confirmer == true">
+                                            <td>
+                                                <img  ngf-thumbnail="pres.mediaProfil.urlMedia" class="thumbUpload">
+                                                <a>{{pres.firstname}} {{pres.lastname}}</a>
+                                                <br><br>
+                                                <small> {{pres.email}}</small>
+                                                <br>
+                                                <span align="center" notegeneral-rating rating-value="pres.noteGlobal" data-max="5"></span>
+                                                <br>
+                                                <span><i class="fa fa-phone"></i> {{pres.telMobil}}</span>
+                                                <br>
+                                                <span><i class="fa fa-mobile-phone"></i> {{pres.telDomi}}</span>
+                                            </td>
+                                            <td>
+                                                <span> {{pres.dateDebut | date : 'MMM'}} / {{pres.dateDebut | date : 'yyyy'}} /</span>
+                                            </td>
+                                            <td>
+                                                <a ng-repeat="spc in pres.specialites" href="" class="btn btn-default btn-xs">
+                                                    <i class="fa fc-agenda-view" ></i> {{spc.name}}
+                                                </a>
+                                            </td>
+                                            <td>
+                                                <a ng-repeat="adr in pres.adresses" href="" class="btn btn-default btn-xs">
+                                                    <i class="fa fc-agenda-view" ></i> {{adr.lieu}}
+                                                </a>
+                                            </td>
+                                            <td>
+                                                <label ng-if="nbrMax >= 1" class="btn btn-warning active" data-toggle-class="btn-primary" data-toggle-passive-class="btn-default" ng-click="setContact(pres._id)">
+                                                    <input type="checkbox" class="js-switch" />
+                                                </label>
+                                            </td>
+                                        </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+
+                        </div>
+                        </form>
+                    </div>
+                    <!-- End SmartWizard Content -->
+                </div>
+                <div class="col-md-4 col-sm-12 col-xs-12">
+                    <form class="form-inline">
+                        <div class="form-group">
+                            <label for="ex3">Show</label>
+                            <select class="form-control input-sm" ng-model="entries">
+                                <option value="10">2</option>
+                                <option value="10">5</option>
+                                <option value="10">10</option>
+                                <option value="25">25</option>
+                                <option value="50">50</option>
+                                <option value="100">100</option>
+                            </select>
+                            entries
+                        </div>
+                    </form>
+                </div>
+                <div class="col-md-4 col-sm-12 col-xs-12">
+                    <form class="form-inline">
+                        <div class="form-group">
+                            <label >Etat</label>
+                            <select class="form-control input-sm" ng-model="entriesState">
+                                <option value="waiting" >En Cours</option>
+                                <option value="confirm" >Confirmer</option>
+                            </select>
+                            entries
+                        </div>
+                    </form>
+                </div>
+                <div class="col-md-4 col-sm-12 col-xs-12">
+                    <form class="form-inline">
+                        <div class="form-group pull-right">
+                            <label for="ex3">Search all columns:</label>
+                            <input type="text" id="ex3" class="form-contro input-sml" placeholder=" " ng-model="searchTxt">
+                        </div>
+                    </form>
+                </div>
+               <div class="clear"></div>
+                     <!--devis-->
+                <div class="col-md-12 col-xs-12">
+                    <table class="table table-striped projects">
+                        <thead>
+                        <tr>
+                            <th style="width: 5%">
+                                <button class="btn btn-default btn-xs"><span class="glyphicon glyphicon-refresh"></span></button>
+                            </th>
+                            <th style="width: 30%">Titre</th>
+                            <th style="width: 15%">Date Ajout</th>
+                            <th style="width: 15%">Etat</th>
+                            <th style="width: 10%">Spécialite</th>
+                            <th style="width: 20%">Adresse</th>
+                            <th style="width: 5%">Offre</th>
+                        </tr>
+                        </thead>
+                        <tbody >
+                        <tr ng-repeat="d in current_user.devis  | filter:entriesState | filter:searchTxt | limitTo:entries" ng-if="d.type[0] == 'normal'" ng-class="isConfirmDevis(d.state[0])">
+                            <td>
+                                <a href="/{{d._id}}" class="btn btn-primary btn-xs active"><i class="fa fa-folder"></i> View </a>
+                                <br/>
+                                <a href="" ng-if="d.state[0] == 'waiting'" class="btn btn-danger btn-xs" ng-click="removeDevis(d._id)"><i class="fa fa-trash-o" ></i> Delete </a></a>
+                            </td>
+                            <td>
+                                <h6>{{d.title}}</h6>
+                                <p ng-bind="d.contents">
+                                </p>
+                                <ul class="list-inline">
+                                    <li ng-repeat="media in d.medias">
+                                        <img src="{{media.urlMedia}}" class="avatar" alt="Avatar">
+                                    </li>
+
+                                </ul>
+                            </td>
+                            <td> {{d.created_at | date : format : timezone}}</td>
+                            <td>
+                                <span class="label label-warning" ng-if="d.state[0] == 'waiting'">En Cours</span>
+                                <span class="label label-success" ng-if="d.state[0] == 'confirm'">Confirmer</span>
+                                <br>
+                                contact : {{d.typeContact[0]}}
+                            </td>
+                            <td>
+                                <a href="" class="btn btn-default btn-xs">
+                                     <i class="fa fc-agenda-view" ></i> {{d.specialite}}
+                                </a>
+                            </td>
+                            <td>
+                                <span><small>Cp : </small> {{d.adresseDevis.codePostal}}</span>
+                                <br>
+                                <span><small>Lieu : </small>{{d.adresseDevis.lieu}}</span>
+                                td
+                            </td >
+                            <td>
+                                <a href="#" >  <strong> {{d.offres.length}} </strong> Offre(s)</a>
+                                <hr/>
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="col-md-12 col-xs-12">
+                    <div class="dataTables_paginate paging_full_numbers" id="example_paginate">
+                        <a tabindex="0" class="first paginate_button paginate_button_disabled" id="example_first">First</a>
+                        <a tabindex="0" class="previous paginate_button paginate_button_disabled" id="example_previous">Previous</a>
+                                                <span>
+                                                    <a tabindex="0" class="paginate_active">1</a>
+                                                    <a tabindex="0" class="paginate_button">2</a>
+                                                    <a tabindex="0" class="paginate_button">3</a>
+                                                    <a tabindex="0" class="paginate_button">4</a>
+                                                </span>
+                        <a tabindex="0" class="next paginate_button" id="example_next">Next</a>
+                        <a tabindex="0" class="last paginate_button" id="example_last">Last</a>
+                    </div>
+                </div>
+        </div>
+    </div>
+    </div>
+</div>
+<script type="text/javascript" src="../../ressources/js/wizard/jquery.smartWizard.js"></script>
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        // Smart Wizard
+        $('#wizard').smartWizard();
+
+        function onFinishCallback() {
+            $('#wizard').smartWizard('showMessage', 'Finish Clicked');
+            alert('Finish Clicked');
+        }
+    });
+
+    $(document).ready(function () {
+        // Smart Wizard
+        $('#wizard_verticle').smartWizard({
+            transitionEffect: 'slide'
+        });
+
+    });
+</script>

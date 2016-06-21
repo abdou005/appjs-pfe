@@ -1,0 +1,25 @@
+<h3>List Domaine</h3>
+<div>
+    <table class="table">
+        <thead>
+            <tr>
+                <th>domaine</th>
+                <th>spec</th>
+                <th>action</th>
+                <th>&nbsp;</th>
+            </tr>
+        </thead>
+        <tbody><!-- content._id as content.name-->
+            <tr ng-repeat="d in domaines">
+                <td>{{d.name}}</td>
+                <td><span ng-repeat="s in d.specialites">{{s.name}} <a href="/createSpec">Add</a></span></td>
+                <td><button class="btn btn-warning" >Edit</button></td>
+                <td><button class="btn btn-danger" >Remove</button> &nbsp; &nbsp;
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+
+
+

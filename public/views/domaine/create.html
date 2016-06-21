@@ -1,0 +1,10 @@
+<h3>Liste specialites</h3>
+<a href="/domaine"> <strong><----</strong> </a>
+<span ng-repeat="d in domaines"> {{d.specialites.name}} pour <strong>{{d.name}} || </strong></span>
+
+<form>
+    Spec : <input type="text" name="name" ng-model="spec.name">
+    Domaine : <select ng-model="d._id" ng-options="d._id as d.name for d in domaines"></select>
+
+    <td><button class="btn btn-warning" >Edit</button></td>
+</form>

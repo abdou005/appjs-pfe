@@ -1,0 +1,24 @@
+{
+  "name": "appJs-PFE",
+  "description": "appArtisan-PFE",
+  "main": "",
+  "authors": [
+    "Abdallah <bouhlaliabdallah@gmail.com>"
+  ],
+  "license": "MIT",
+  "homepage": "https://github.com/abdou-005/AppJs",
+  "moduleType": [],
+  "dependencies": {
+    "angular": "^1.5.0",
+    "angular-route": "^1.5.0",
+    "bootstrap": "^3.3.6",
+    "font-awesome": "^4.5.0",
+    "angular-socket-io": "^0.7.0",
+    "angularjs-geolocation": "^0.1.1",
+    "modernizr": "^3.3.1",
+    "ng-file-upload":"^10.0.4"
+  },
+  "install": {
+    "path": "public/libs"
+  }
+}

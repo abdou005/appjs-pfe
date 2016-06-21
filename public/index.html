@@ -1,0 +1,680 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+    <title>Bootstrap 101 Template</title>
+    <!-- Bootstrap -->
+    <link href="ressources/css/bootstrap.min.css" rel="stylesheet">
+    <link href="ressources/fonts/css/font-awesome.min.css" rel="stylesheet">
+    <link href="ressources/style.css" rel="stylesheet">
+    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+    <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+    <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
+    <!--
+     <script src="https://cdn.socket.io/socket.io-1.4.5.js"></script>
+     -->
+    <script src="/socket.io/socket.io.js"></script>
+    <!-- Holder JS -->
+
+    <!-- Google Maps API -->
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCmL_BRSaBvSM6HFDbu8Q6Q8iDBM5mXiDk"></script>
+    <!-- Modernizr
+    <script src="libs/modernizr/bin/modernizr"></script>
+    -->
+    <script src="ressources/js/jquery.min.js"></script>
+    <!-- Angular core components -->
+    <script type="text/javascript" src="libs/angular/angular.js"></script>
+    <script type="text/javascript" src="libs/angular-route/angular-route.js"></script>
+    <script type="text/javascript" src="libs/angular-socket-io/socket.js"></script>
+    <script src="libs/angularjs-geolocation/dist/angularjs-geolocation.min.js"></script>
+    <script type="text/javascript" src="libs/ng-file-upload/dist/ng-file-upload.min.js"></script>
+    <!-- Initialize Angular App  -->
+    <script type="text/javascript" src="app.js"></script>
+    <script type="text/javascript" src="routing.js"></script>
+    <!-- Controllers-->
+    <script type="text/javascript" src="src/controllers/loginController.js"></script>
+    <script type="text/javascript" src="src/controllers/profil/profilClientController.js"></script>
+    <script type="text/javascript" src="src/controllers/profil/profilArtisanController.js"></script>
+    <script type="text/javascript" src="src/controllers/profil/profilAdminController.js"></script>
+    <script type="text/javascript" src="src/controllers/profil/uploadController.js"></script>
+    <script type="text/javascript" src="src/controllers/contentController.js"></script>
+    <script type="text/javascript" src="src/controllers/domaineController.js"></script>
+    <script type="text/javascript" src="src/controllers/homeController.js"></script>
+    <script type="text/javascript" src="src/controllers/navController.js"></script>
+    <script type="text/javascript" src="src/controllers/devis/demandeDevisController.js"></script>
+    <script type="text/javascript" src="src/controllers/devis/devisExpressController.js"></script>
+    <script type="text/javascript" src="src/controllers/devis/recueExpressController.js"></script>
+    <script type="text/javascript" src="src/controllers/devis/listDevisController.js"></script>
+    <script type="text/javascript" src="src/controllers/notification/notificationController.js"></script>
+    <script type="text/javascript" src="src/controllers/adresseController.js"></script>
+    <script type="text/javascript" src="src/controllers/notification/notificationUserController.js"></script>
+    <script type="text/javascript" src="src/controllers/getPrestataireController.js"></script>
+    <!-- Directives-->
+    <script type="text/javascript" src="src/directives/itemDecoratorDirective.js"></script>
+    <script type="text/javascript" src="src/directives/qualityServiceDecoratorDirective.js"></script>
+    <script type="text/javascript" src="src/directives/priceServiceDecoratorDirective.js"></script>
+    <script type="text/javascript" src="src/directives/respectPeriodDecoratorDirective.js"></script>
+    <script type="text/javascript" src="src/directives/contactDecoratorDirective.js"></script>
+    <script type="text/javascript" src="src/directives/noteGeneralDecoratorDirective.js"></script>
+    <!-- Services-->
+    <script type="text/javascript" src="src/services/contentProvider.js"></script>
+    <script type="text/javascript" src="src/services/homeProvider.js"></script>
+    <script type="text/javascript" src="src/services/socketDevisFactory.js"></script>
+    <script type="text/javascript" src="src/services/devisProvider.js"></script>
+    <script type="text/javascript" src="src/services/gserviceFactory.js"></script>
+    <script type="text/javascript" src="src/services/offreProvider.js"></script>
+    <script type="text/javascript" src="src/services/notificationProvider.js"></script>
+    <script type="text/javascript" src="src/services/questionProvider.js"></script>
+    <script type="text/javascript" src="src/services/avisProvider.js"></script>
+    <script type="text/javascript" src="src/services/documentProvider.js"></script>
+    <!-- Repositorys-->
+    <script type="text/javascript" src="src/repositorys/contentRepository.js"></script>
+    <script type="text/javascript" src="src/repositorys/homeRepository.js"></script>
+    <script type="text/javascript" src="src/repositorys/devisRepository.js"></script>
+    <script type="text/javascript" src="src/repositorys/offreRepository.js"></script>
+    <script type="text/javascript" src="src/repositorys/notificationRepository.js"></script>
+    <script type="text/javascript" src="src/repositorys/questionRepository.js"></script>
+    <script type="text/javascript" src="src/repositorys/avisRepository.js"></script>
+    <script type="text/javascript" src="src/repositorys/documentRepository.js"></script>
+</head>
+<body ng-app="myApp">
+<div class="loader" ng-show="loading"></div>
+<div class="container-full">
+    <div class="row">
+        <nav class="navbar navbar-default navbar-fixed-top">
+            <div class="container-fluid">
+                <!-- Brand and toggle get grouped for better mobile display -->
+                <div class="navbar-header ">
+                     <span class="band-sociaux pull-left">
+                        <a href="#"><img src="ressources/images/fb-icone.png" ></a>
+                        <a href="#"><img src="ressources/images/tw-icone.png" ></a>
+                        <a href="#"><img src="ressources/images/go-icone.png" ></a>
+                        <a href="#"><img src="ressources/images/yo-icone.png" ></a>
+                        <a href="#"><img src="ressources/images/rs-icone.png" ></a>
+                    </span>
+                </div>
+                <!-- Collect the nav links, forms, and other content for toggling -->
+                <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1" ng-controller="loginCtrl">
+                    <ul class="nav navbar-nav navbar-right" >
+                        <li class="active"><a href="#">Accueil</a></li>
+                        <li><a href="" ng-click="getBordRegister()">S'inscrire</a></li>
+                        <li><a href="" ng-click="getBordLogin()">Se connecter</a></li>
+                        <li class="dropdown">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Acces <span class="caret"></span></a>
+                            <ul class="dropdown-menu">
+                                <li><a href="" ng-click="getBordLogin()">Prestataire</a></li>
+                                <li><a href="" ng-click="getBordLogin()">Client</a></li>
+                                <li><a href="" ng-click="getBordLogin()">Something else here</a></li>
+                                <li role="separator" class="divider"></li>
+                                <li><a href="" ng-click="getBordLogin()">Separated link</a></li>
+                            </ul>
+                        </li>
+                        <li> <a href=""><i class="fa fa-envelope-o" style="color: #fe980f; font-size: 1.5em"> </i>&nbsp; Contactez-nous</a></li>
+                    </ul>
+                </div><!-- /.navbar-collapse -->
+            </div><!-- /.container-fluid -->
+        </nav>
+    </div>
+    <div class="row">
+        <div class="col-lg-12">
+            <div id="carousel-example-generic" class="carousel slide" data-ride="carousel">
+                <!-- Wrapper for slides -->
+                <div class="carousel-inner" role="listbox">
+                    <div class="item active">
+                        <img src="ressources/images/slider1.jpg" class="img-responsive" alt="...">
+                        <div class="carousel-caption">
+
+                        </div>
+                    </div>
+                    <div class="item">
+                        <img src="ressources/images/slider2.jpg" class="img-responsive" alt="...">
+                        <div class="carousel-caption">
+
+                        </div>
+                    </div>
+                    <div class="item">
+                        <img src="ressources/images/slider1.jpg" class="img-responsive" alt="...">
+                        <div class="carousel-caption">
+
+                        </div>
+                    </div>
+                    <div class="slider" ng-controller="loginCtrl">
+                        <p class=" pull-left">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ab accusantium aliquid te perferendis quas repellat velit.</p>
+                        <p class=" btn-inscrit pull-right"> <a href="" class="btn btn-warning btn-lg active" ng-click="getBordRegister()" role="button">Inscrivez-vous</a></p>
+                    </div>
+
+                </div>
+                <!-- Controls-->
+                    <a class="left carousel-control" href="#carousel-example-generic" role="button" data-slide="prev">
+                    <span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
+                    <span class="sr-only">Previous</span>
+                </a>
+                <a class="right carousel-control" href="#carousel-example-generic" role="button" data-slide="next">
+                    <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
+                    <span class="sr-only">Next</span>
+                </a>
+
+            </div>
+        </div>
+    </div>
+    <div class="container-full search-prestataire" ng-controller="getPrestataireCtrl">
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="col-lg-5">
+                    <div class="form-group">
+                        <div class="input-group">
+                            <div class="input-group-addon" style="color: #fe980f;"><i class="fa fa-search"></i></div>
+                            <input type="text" class="form-control input-sm" ng-keypress="getService()" ng-model="user.service" placeholder="Jane Doe">
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-5">
+                    <div class="form-group">
+                        <div class="input-group">
+                            <div class="input-group-addon" style="color: #fe980f;"><i class="fa fa-location-arrow"></i></div>
+                            <input type="text" class="form-control input-sm" ng-keypress="getAdresse()" ng-model="user.adresse" placeholder="La Rochelle (17000)">
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-2 pull-left">
+                    <button  class="btn btn-primary btn-sm" ng-click="searchPrestataire()">Trouver un prestataire</button>
+                </div>
+                <div class="col-lg-5">
+                    <div class="list-group" ng-show="showService">
+                        <a href="#" class="list-group-item" ng-repeat="s in services | filter:user.service" ng-click="getValServ(s.name)">{{s.name}}</a>
+                    </div>
+                </div>
+                <div class="col-lg-5">
+                    <div class="list-group" ng-show="showAdresse">
+                        <a href="#" class="list-group-item" ng-repeat="adr in adresses | filter:user.adresse" ng-click="getValAdr(adr)">{{adr.lieu}}, {{adr.codePostal}}</a>
+                    </div>
+                </div>
+                <div class="col-lg-2">
+
+                </div>
+                `</div>
+        </div>
+        <div class="row">
+            <div class="col-lg-12" ng-show="showSearchPrest">
+                <div class="container-fluid">
+                    <div class="col-lg-4">
+                        <div class="panel panel-warning">
+                            <div class="panel-heading">
+                                <h3 class="panel-title text-center">TRIER VOTRE RECHERCHE</h3>
+                            </div>
+                            <div class="panel-body">
+                                <label class="radio-inline" for="inlineRadio1">
+                                    <input type="radio" name="inlineRadioOptions" id="inlineRadio1" ng-model="typePrest" value="societe"> <span>société</span>
+                                </label>
+                                <label class="radio-inline" for="inlineRadio2">
+                                    <input type="radio" name="inlineRadioOptions" id="inlineRadio2"  ng-model="typePrest" value="autoentropeneur"> <span>auto-entrepreneur</span>
+                                </label>
+                            </div>
+                            <div class="panel-heading">
+                                <h3 class="panel-title text-center">DISTANCE</h3>
+                            </div>
+                            <div class="text-center">
+                                <div class="radio">
+                                    <label>
+                                        <input type="radio" name="optionsRadios" id="optionsRadios1" value="option1" checked>
+                                        25 km
+                                    </label>
+                                </div>
+                                <div class="radio">
+                                    <label>
+                                        <input type="radio" name="optionsRadios" id="optionsRadios2" value="option2">
+                                        50 km
+                                    </label>
+                                </div>
+                                <div class="radio disabled">
+                                    <label>
+                                        <input type="radio" name="optionsRadios" id="optionsRadios3" value="option3" >
+                                        100 km
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-8">
+                        <div class="media prestataire-list" ng-repeat="p in listPrestataires | filter:typePrest">
+                            <div class="media-left media-middle">
+                                <a href="#" class=" pull-left" style=" border: 1px solid #FE980F;">
+                                    <img class=" media-object" src="{{p.mediaProfil.urlMedia}}" alt="" style="width: 150px;">
+                                </a>
+                                <span><i class="fa fa-calendar"></i> Depuis : {{p.dateDebut  | date : 'MMM' }} / {{p.dateDebut  | date : 'yyyy' }}</span>
+                            </div>
+                            <div class="media-body">
+                                <h4 class="media-heading">
+                                <span>{{p.firstname}} {{p.lastname}}
+                                    <small ng-if="p.type == 'societe'">(Société)</small>
+                                    <small ng-if="p.type == 'autoentropeneur'">(Auto-entrepreneur)</small>
+                                </span>
+                            <span class="badge bg-orange pull-right" >
+                              <a>{{p.noteGlobal | number:2}}</a>
+                             </span>
+                                    <span notegeneral-rating rating-value="p.noteGlobal" data-max="5" class="pull-right" ></span>
+                                </h4>
+                                <div class="col-lg-12">
+                                    <a ng-repeat="s in p.specialites" href="" class="btn btn-default btn-xs">
+                                        <i class="fa fc-agenda-view" ></i> {{s.name}}
+                                    </a>
+                                    <div class="clear"></div>
+                                    <div class="clear"></div>
+                                </div>
+                                <div class="col-lg-12">
+                                    <div class="col-lg-3">
+                                        <a href="#" class="btn btn-warning btn-block pull-right" role="button" ng-click="getHome()"> <i class="fa fa-star"></i>Evaluer </a>
+
+                                    </div>
+                                    <div class="col-lg-3">
+                                        <a href="#" class="btn btn-primary btn-block pull-right" role="button" ><i class="fa fa-facebook"></i> Partager</a>
+
+                                    </div>
+                                    <div class="col-lg-3">
+                                        <a class="btn btn-success btn-block pull-right" data-toggle="modal" data-target=".bs-example-modal-lg" ng-click="getPagePro(p.email)"><i class="fa fa-user m-right-xs"></i> Page Pro</a>
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="modal fade bs-example-modal-lg" tabindex="-1" role="dialog" aria-hidden="true" style="display: none;">
+            <div class="modal-dialog modal-lg">
+                <div class="modal-content" style="background-color: #f2eee8;">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">x</span>
+                        </button>
+                        <h4 class="modal-title" id="myModalLabel">
+                            <img src="{{prestPagePro.mediaProfil.urlMedia}}" class="img-thumbnail pull-left" alt="" style="width: 150px;">
+
+                            <p class="pull-right">
+                                <span class="badge bg-orange pull-right" >
+                                     <a>{{prestPagePro.noteGlobal | number:2}}</a>
+                                 </span>
+                                <span notegeneral-rating rating-value="prestPagePro.noteGlobal" data-max="5"></span>
+                            </p>
+                            <p class="pull-right" style="color: #aaa;">
+                                <span class="pull-right">Moyenne obtenue sur <small>{{prestPagePro.avis.length}}</small> avis </span>
+                            </p>
+                        </h4>
+                        <div class="clear"></div>
+                    </div>
+                    <div class="modal-body">
+                        <div class="row">
+                            <div class="container-full">
+                                <div class="row">
+                                    <div class="col-lg-12">
+                                        <div class="test1">
+                                            <h3>À propos</h3>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-12">
+                                        <div class="col-lg-12 test2">
+                                            <div>
+                                               {{prestPagePro.activite}}
+                                            </div>
+                                            <div class="clear"></div>
+                                            <div class="col-lg-12">
+                                                <span ng-repeat="specPro in prestPagePro.specialites" style="color : #999;"> {{specPro.name}} -</span>
+                                            </div>
+                                            <div class="clear"></div>
+                                            <div class="clear"></div>
+                                            <div class="col-lg-12">
+                                                <div class="row">
+                                                    <div class="col-lg-3" ng-repeat="media in prestPagePro.medias">
+                                                        <a href="#" class="thumbnail">
+                                                            <img src="{{media.urlMedia}}" alt="{{media.name}}">
+                                                        </a>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-lg-12">
+                                        <div class="test1">
+                                            <h3>TARIFS & DISPONIBILITÉ</h3>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-12">
+                                        <div class="col-lg-12 test2">
+                                            <table class="table">
+                                                <thead>
+                                                <tr>
+                                                    <th>prestation</th>
+                                                    <th>prix</th>
+                                                    <th>remise</th>
+
+                                                </tr>
+                                                </thead>
+                                                <tbody >
+                                                <tr ng-repeat="pr in prestPagePro.prestations">
+                                                    <td>
+                                                        <span>{{pr.serviceName}}</span>
+                                                    </td>
+                                                    <td>
+                                                        <span>{{pr.prix}}</span>
+                                                    </td>
+                                                    <td>
+                                                        <span>{{pr.remise}}</span>
+                                                    </td>
+                                                </tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-lg-12">
+                                        <div class="test1">
+                                            <h3>Adresses</h3>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-12">
+                                        <div class="col-lg-12 test2">
+                                            <a href="" ng-click="refrechMap()"><i class="fs fa-refresh"></i> Consulter</a>
+                                            <div id="map" style="width:645px; height:375px"></div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-lg-12">
+                                        <div class="test1">
+                                            <h3>AVIS & NOTE <span class="badge bg-warning">{{prestPagePro.avis.length}}</span></h3>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-12">
+                                        <div class="test2">
+                                            <div class="media" ng-repeat="avi in prestPagePro.avis">
+                                                <div class="media-left media-middle">
+                                                    <a href="#">
+                                                        <img class="img-circle" src="ressources/images/users/defaultImg.jpg" alt="" style="width: 50px; height: 50px;">
+                                                    </a>
+                                                </div>
+                                                <div class="media-body">
+                                                    <h4 class="media-heading"><span notegeneral-rating rating-value="avi.noteGlobal" data-max="5"></span></h4>
+                                                    <div class="col-lg-12">
+                                                        <p>{{avi.desc}}</p>
+                                                    </div>
+                                                    <div class="clear"></div>
+                                                    <div class="row" style="background-color: #f2f2f2;">
+                                                        <div class="col-lg-12">
+                                                            <span style="color: #999;">Prestation : en {{avi.created_at  | date : 'MMMM' }}  {{avi.created_at  | date : 'yyyy' }}</span>
+                                                        </div>
+                                                        <div class="col-lg-12">
+                                                            <table class="table" border="0px" style="text-align: center;">
+                                                                <tr>
+                                                                    <td>
+                                                                        <span >Qualité des travaux</span>
+                                                                        <span qualityservice-rating rating-value="avi.noteQualityServ" data-max="5"></span>
+                                                                    </td>
+                                                                    <td>
+                                                                        <span>Prix des travaux</span>
+                                                                        <span priceservice-rating rating-value="avi.notePriceServ" data-max="5"></span>
+                                                                    </td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <td>
+                                                                        <span >Respect des délais</span>
+                                                                        <span respectperiod-rating rating-value="avi.noteRespectPeriod" data-max="5"></span>
+                                                                    </td>
+                                                                    <td>
+                                                                        <span>Qualité de contact</span>
+                                                                        <span contact-rating rating-value="avi.noteContact" data-max="5"></span>
+                                                                    </td>
+                                                                </tr>
+                                                            </table>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal"> Annuler</button>
+                        <button type="button" class="btn btn-primary">Demander un devis</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div ng-show="showHome">
+        <div class="row icon-bar1">
+            <div class="col-lg-12">
+                <p class="text-center "><strong  style="color : #fe980f;"> MET EN RELATION PROFESSIONNELS DES SERVICES À DOMICILE ET PARTICULIERS
+                    </strong></p>
+                <p class="text-center "><strong  style="color : #fe980f;">GRATUIT, FACILE ET SANS INTERMÉDIAIRE</strong></p>
+            </div>
+            <div class="col-lg-4">
+                <p class="text-center" >
+                    <img src="ressources/images/ico1.png"  class="img-circle ">
+                </p>
+                <p class="text-center">Trouvez le service qu'il vous faut</p>
+            </div>
+            <div class="col-lg-4">
+                <p class="text-center" >
+                    <img src="ressources/images/ico2.png"  class="img-circle">
+                </p>
+                <p class="text-center">Rencontrez-vous</p>
+            </div>
+            <div class="col-lg-4">
+                <p class="text-center" >
+                    <img src="ressources/images/ico3.png"  class="img-circle">
+                </p>
+                <p class="text-center">Contactez le professionnel gratuitement</p>
+            </div>
+        </div>
+        <div class="row carte">
+            <div class="col-lg-12">
+                <h4 class="text-center">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Aperiam, architecto t dignissimos dolor illo molestias nobis, provident.</h4>
+            </div>
+            <div class="col-lg-4">
+                <h4 class="text-center">Lorem ipsum dolor sit amet</h4>
+                <p class="text-center"> Lorem ipsum dolor sit amet, consectetur adipisicing elit. Consectetur eius, eveniet fugiat iure molestias nihil quidem repellat tempore voluptate..</p>
+                <p class="text-center"><a href="#">link</a></p>
+            </div>
+            <div class="col-lg-4">
+                <p class="text-center" >
+                    <img src="ressources/images/carte.jpg"  >
+                </p>
+            </div>
+            <div class="col-lg-4">
+                <h4 class="text-center">Lorem ipsum dolor sit amet</h4>
+                <p class="text-center"> Lorem ipsum dolor sit amet, consectetur adipisicing elit. Consectetur eius, eveniet fugiat iure molestias nihil quidem repellat tempore voluptate..</p>
+                <p class="text-center"><a href="#">link</a></p>
+            </div>
+        </div>
+        <div class="row icon-bar2">
+            <div class="col-lg-3">
+                <p class="text-center" >
+                    <img src="ressources/images/ico4.png"  class="img-circle ">
+                </p>
+                <p class="text-center text-icon-bar2"><strong>LANCEZ</strong></p>
+                <p class="text-center text-icon-bar2">votre activité</p>
+            </div>
+            <div class="col-lg-3">
+                <p class="text-center" >
+                    <img src="ressources/images/ico5.png"  class="img-circle ">
+                </p>
+                <p class="text-center text-icon-bar2"><strong>DÉCOUVREZ</strong></p>
+                <p class="text-center text-icon-bar2">nos offres</p>
+            </div>
+            <div class="col-lg-3">
+                <p class="text-center" >
+                    <img src="ressources/images/ico6.png"  class="img-circle ">
+                </p>
+                <p class="text-center text-icon-bar2"><strong>RÉPONDEZ</strong></p>
+                <p class="text-center text-icon-bar2">aux demandes de devis</p>
+            </div>
+            <div class="col-lg-3">
+                <p class="text-center" >
+                    <img src="ressources/images/ico7.png"  class="img-circle ">
+                </p>
+                <p class="text-center text-icon-bar2"><strong>INTERVENTION</strong></p>
+                <p class="text-center text-icon-bar2">express</p>
+                <div class="clear"></div>
+                <div class="clear"></div>
+            </div>
+            <div class="col-lg-12 text-center">
+                <a href="/home" class="btn btn-warning btn-sm active" style="color: black; font-weight: bold;" role="button">CREEZ VOTRE PROFIL PROFESSIONNEL GRATUITEMENT</a>
+            </div>
+        </div>
+        <div class="row text-center">
+            <div class="col-lg-12 text-center">
+                <img src="ressources/images/artisan.jpg" class="img-responsive">
+            </div>
+        </div>
+    </div>
+    <div class="clear"></div>
+    <div class="container-fluid">
+        <div class="col-lg-12">
+            <h4 class="text-center">Lorem ipsum dolor sit amet, consectetur adipisicing elit.os eveniet, praesentium quidem re</h4>
+                <!-- Carousel
+         ================================================== -->
+                <div id="myCarousel" class="carousel slide">
+                    <div class="carousel-inner">
+                        <div class="item active">
+                            <div class="row">
+                                <div class="col-md-3"><a href="#" class="thumbnail"><img class="img-responsive" src="http://placehold.it/250x160" alt="Thumb11"></a>
+                                </div>
+                                <div class="col-md-3"><a href="#" class="thumbnail"><img class="img-responsive" src="http://placehold.it/250x160" alt="Thumb12"></a>
+                                </div>
+                                <div class="col-md-3"><a href="#" class="thumbnail"><img class="img-responsive" src="http://placehold.it/250x160" alt="Thumb13"></a>
+                                </div>
+                                <div class="col-md-3"><a href="#" class="thumbnail"><img class="img-responsive" src="http://placehold.it/250x160" alt="Thumb14"></a>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="item">
+                            <div class="row">
+                                <div class="col-md-3"><a href="#" class="thumbnail"><img class="img-responsive" src="http://placehold.it/250x160" alt="Thumb21"></a>
+                                </div>
+                                <div class="col-md-3"><a href="#" class="thumbnail"><img class="img-responsive" src="http://placehold.it/250x160" alt="Thumb22"></a>
+                                </div>
+                                <div class="col-md-3"><a href="#" class="thumbnail"><img class="img-responsive" src="http://placehold.it/250x160" alt="Thumb23"></a>
+                                </div>
+                                <div class="col-md-3"><a href="#" class="thumbnail"><img class="img-responsive" src="http://placehold.it/250x160" alt="Thumb24"></a>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="item">
+                            <div class="row">
+                                <div class="col-md-3"><a href="#" class="thumbnail"><img class="img-responsive" src="http://placehold.it/250x160" alt="Thumb31"></a>
+                                </div>
+                                <div class="col-md-3"><a href="#" class="thumbnail"><img class="img-responsive" src="http://placehold.it/250x160" alt="Thumb32"></a>
+                                </div>
+                                <div class="col-md-3"><a href="#" class="thumbnail"><img class="img-responsive" src="http://placehold.it/250x160" alt="Thumb33"></a>
+                                </div>
+                                <div class="col-md-3"><a href="#" class="thumbnail"><img class="img-responsive" src="http://placehold.it/250x160" alt="Thumb34"></a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div>
+                        <a class="left carousel-control" href="#myCarousel" data-slide="prev"><i class="fa fa-chevron-left fa-2x"></i></a>
+                        <a class="right carousel-control" href="#myCarousel" data-slide="next"><i class="fa fa-chevron-right fa-2x"></i></a>
+                        <ol class="carousel-indicators">
+                            <li data-target="#myCarousel" data-slide-to="0" class="active"></li>
+                            <li data-target="#myCarousel" data-slide-to="1"></li>
+                            <li data-target="#myCarousel" data-slide-to="2"></li>
+                        </ol>
+                    </div>
+                </div><!-- End Carousel -->
+            <div class="clear"></div>
+        </div>
+        <div class="col-lg-12">
+            <div class="container">
+                <hr class="separateur"/>
+                <div class="row">
+                    <div class="col-lg-12">
+                        <div class="col-lg-2">
+                            <img src="http://placehold.it/150x150" class="img-thumbnail">
+                        </div>
+                        <div class="col-lg-2">
+                            <img src="http://placehold.it/150x150" class="img-thumbnail">
+                        </div>
+                        <div class="col-lg-2">
+                            <img src="http://placehold.it/150x150" class="img-thumbnail">
+                        </div>
+                        <div class="col-lg-2">
+                            <img src="http://placehold.it/150x150" class="img-thumbnail">
+                        </div>
+                        <div class="col-lg-2">
+                            <img src="http://placehold.it/150x150" class="img-thumbnail">
+                        </div>
+                        <div class="col-lg-2">
+                            <img src="http://placehold.it/150x150" class="img-thumbnail">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+    <div class="clear"></div>
+    <div class="row footer-top">
+        <div class="col-lg-12">
+            <div class="container">
+                <div class="col-lg-4">
+                    <h4>Lorem ipsum </h4>
+                    <p>Lorem ipsum dolor sit amet, </p>
+                    <p>Lorem ipsum dolor sit amet, </p>
+                    <p>Lorem ipsum dolor sit amet,</p>
+                </div>
+                <div class="col-lg-4">
+                    <h4>Lorem ipsum </h4>
+                    <p>Lorem ipsum dolor sit amet, </p>
+                    <p>Lorem ipsum dolor sit amet, </p>
+                    <p>Lorem ipsum dolor sit amet, </p>
+                </div>
+                <div class="col-lg-4">
+                    <div class="form-group col-lg-10">
+                       <h5>Inscrivez-vous à notre newsletter</h5>
+                           <div class="input-group">
+                                        <input type="email" class="form-control" placeholder="user@domaine.com" >
+                               <span class="input-group-btn">
+                                        <button type="button" class="btn btn-default active" >OK</button>
+                               </span>
+                            </div>
+                    </div>
+                    <div class="col-lg-12">
+                        <h5>Suivez-nous sur</h5>
+                        <a href="#"><img src="ressources/images/fb-icone.png"></a>
+                        <a href="#"><img src="ressources/images/tw-icone.png"></a>
+                        <a href="#"><img src="ressources/images/go-icone.png"></a>
+                        <a href="#"><img src="ressources/images/yo-icone.png"></a>
+                        <a href="#"><img src="ressources/images/rs-icone.png"></a>
+                        <div class="clear"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+    <div class="row footer-bottom">
+        <div class="col-lg-12">
+            <p class="pull-right">
+                <a href="#">Home</a> | <a href="#">acces prestataire</a> | <a href="#">acces client</a> | <a href="#">evaluations</a>
+            </p>
+        </div>
+
+    </div>
+</div>
+<script src="ressources/js/jquery.min.js"></script>
+<script src="ressources/js/bootstrap.min.js"></script>
+</body>
+</html>

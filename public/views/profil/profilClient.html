@@ -1,0 +1,575 @@
+<style>
+    .rating{
+        color: #a9a9a9;
+        margin: 0;
+        padding: 0;
+    }
+
+    ul.rating {
+        display: inline-block;
+    }
+
+    .rating li {
+        list-style-type: none;
+        display: inline-block;
+        padding: 1px;
+        text-align: center;
+        font-weight: bold;
+        cursor: pointer;
+    }
+
+    .rating .filled {
+        color: #1ABB9C;
+    }
+    .thumbUpload {
+        width: 120px;
+        height: 120px;
+        float: none;
+        position: relative;
+        top: 7px;
+    }
+
+    form .progressUpload {
+        line-height: 15px;
+    }
+
+    .progressUpload {
+        display: inline-block;
+        width: 100px;
+        border: 3px groove #CCC;
+    }
+
+    .progressUpload div {
+        font-size: smaller;
+        background: orange;
+        width: 0;
+    }
+</style>
+<div class="row">
+    <div class="col-md-12 col-sm-12 col-xs-12">
+        <div class="x_panel">
+            <div class="x_title">
+                <h2>Bienvenue sur votre espace Membre ! <small>Ceci est votre Tableau de bord</small></h2>
+                <ul class="nav navbar-right panel_toolbox">
+                    Devenir un prestataire
+                </ul>
+                <div class="clearfix"></div>
+            </div>
+            <div class="x_content">
+                <div class="col-md-3 col-sm-3 col-xs-12 profile_left">
+                    <div class="profile_img">
+                        <!-- end of image cropping -->
+                        <div id="crop-avatar">
+                            <!-- Current avatar -->
+                            <div class="avatar-view" title="" data-original-title="Change the avatar" >
+                                    <img src="{{current_user.mediaProfil.urlMedia}}" alt="Avatar">
+                            </div>
+                            <!-- Cropping modal -->
+                        </div>
+                        <!-- end of image cropping -->
+                    </div>
+                    <h3>{{current_user.firstname}} {{current_user.lastname}}</h3>
+                    <ul class="list-unstyled user_data">
+                        <li>
+                            <i class="fa fa-map-marker user-profile-icon"></i> <span ng-repeat="adr in current_user.adresses" ng-if="adr.isDefault"> {{adr.lieu}} {{adr.codePostal}}</span>
+                        </li>
+                        <li>
+                            <a href="#" ng-click="getDevis()"> <i class="fa fa-briefcase user-profile-icon"></i> <span>Mes annonces</span></a>
+                        </li>
+                        <li class="m-top-xs">
+                            <a href="#" target="_blank"><i class="fa fa-external-link user-profile-icon"></i><span>{{current_user.email}}</span></a>
+                        </li>
+                    </ul>
+
+                    <a class="btn btn-success" data-toggle="modal" data-target=".bs-example-modal-lg"><i class="fa fa-edit m-right-xs"></i>Modifier votre Profile</a>
+                    <!-- Large modal -->
+                    <div class="modal fade bs-example-modal-lg" tabindex="-1" role="dialog" aria-hidden="true" style="display: none;">
+                        <div class="modal-dialog modal-lg">
+                            <div class="modal-content" style="background-color: #f2eee8;">
+                                <div class="modal-header">
+                                    <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">x</span>
+                                    </button>
+                                    <h4 class="modal-title" id="myModalLabel">
+                                        <img src="{{current_user.mediaProfil.urlMedia}}" class="img-thumbnail pull-left" alt="" style="width: 150px;">
+                                    </h4>
+                                    <div class="clear"></div>
+                                </div>
+                                <div class="modal-body">
+                                    <div class="row">
+                                        <div class="container-full">
+                                            <div class="row">
+                                                <div class="col-lg-12">
+                                                    <div class="test1">
+                                                        <h3>Modifier Compte</h3>
+                                                    </div>
+                                                </div>
+                                                <div class="col-lg-12">
+                                                    <div class="col-lg-12 test2">
+                                                        <div class="col-lg-12">
+                                                            <form class="form-horizontal form-label-left" name="formCompte" novalidate>
+
+                                                                <div class="form-group">
+                                                                    <label class="control-label col-md-2 col-sm-2 col-xs-12">Nom <span class="required">*</span></label>
+                                                                    <div class="col-md-4 col-sm-4 col-xs-12">
+                                                                        <input type="text" class="form-control" placeholder="Nom" ng-model="current_user.firstname"  required>
+                                                                    </div>
+
+                                                                    <label class="control-label col-md-2 col-sm-2 col-xs-12">Prenom <span class="required">*</span></label>
+                                                                    <div class="col-md-4 col-sm-4 col-xs-12">
+                                                                        <input type="text" class="form-control" placeholder="Prenom" ng-model="current_user.lastname"  required>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="form-group">
+                                                                    <label class="control-label col-md-2 col-sm-2 col-xs-12">Tel </label>
+                                                                    <div class="col-md-4 col-sm-4 col-xs-12">
+                                                                        <input type="tel" class="form-control" placeholder="Mobile" ng-model="current_user.telMobil"  required>
+                                                                    </div>
+                                                                    <label class="control-label col-md-2 col-sm-2 col-xs-12">Tel </label>
+                                                                    <div class="col-md-4  col-sm-4 col-xs-12">
+                                                                        <input type="tel" class="form-control" placeholder="Bureau" ng-model="current_user.telDomi">
+                                                                    </div>
+
+                                                                </div>
+                                                                <div class="ln_solid"></div>
+                                                                <div class="form-group">
+                                                                    <div class="col-md-3 col-sm-3 col-xs-12 col-md-offset-2">
+                                                                        <button type="submit" class="btn btn-warning btn-block" ng-click="updateUserProfil()" ng-disabled="formCompte.$invalid"> Enregistrer</button>
+                                                                    </div>
+                                                                    <div class="col-md-3 col-sm-3 col-xs-12">
+
+                                                                        <button type="reset" class="btn btn-info btn-block" ng-click="deselect()" >Annuler</button>
+                                                                    </div>
+                                                                    <div class="col-md-9 col-sm-9 col-xs-12 col-md-offset-3">
+
+
+                                                                    </div>
+                                                                </div>
+                                                            </form>
+                                                        </div>
+                                                        <div class="clear"></div>
+                                                        <div ng-controller="uploadCtrl">
+                                                            <form name="myForm">
+                                                                    <div class="col-lg-6">
+                                                                         <input type="file" ngf-select ng-model="file" name="file"
+                                                                                           ngf-pattern="'image/*'" accept="image/*" ngf-max-size="2MB" required
+                                                                                           ngf-model-invalid="errorFile">
+                                                                         <i ng-show="myForm.file.$error.required"></i>
+                                                                         <br>
+                                                                         <i ng-show="myForm.file.$error.maxSize" style="color: red;">Taille MB?
+                                                                          {{errorFile.size / 1000000|number:1}}: max 2M</i>
+                                                                          <img ng-show="myForm.file.$valid" ngf-thumbnail="file" class="thumbUpload">
+                                                                         <button class="btn btn-danger btn-xs btnTrash" ng-click="file = null; errorMsg ='';" ng-show="file"><i class="fa fa-trash-o"></i></button>
+                                                                    </div>
+                                                                    <div class="col-lg-6">
+                                                                        <button type="submit" ng-disabled="!myForm.$valid" ng-click="upload(file)"><i class="fa fa-file-image-o"></i>Uploader</button>
+                                                                                          <span class="progressUpload" ng-show="file.progress >= 0">
+                                                                                            <div style="width:{{file.progress}}%" ng-bind="file.progress + '%'"></div>
+                                                                                          </span>
+                                                                        <span ng-show="file.result">Image aploader avec succee</span>
+                                                                        <span class="err" ng-show="errorMsg" style="color:#1ABB9C;">{{errorMsg}}</span>
+                                                                    </div>
+                                                            </form>
+                                                        </div>
+                                                        <div class="clear"></div>
+                                                        <div class="col-lg-12">
+                                                            <div class="row">
+                                                                <div class="col-md-3 active" ng-repeat="media in current_user.medias" >
+                                                                    <div class="thumbnail">
+                                                                        <div class="image view view-first">
+                                                                            <img  style="width: 100%; height: 100%; display: block;" src="{{media.urlMedia}}" alt="image" />
+                                                                            <div class="mask">
+                                                                                <p>{{media.name}}</p>
+                                                                                <div class="tools tools-bottom">
+                                                                                    <a href=""><i class="fa fa-link"></i></a>
+                                                                                    <a href=""><i class="fa fa-pencil"></i></a>
+                                                                                    <a href="" ng-if="media._id != current_user.mediaProfil._id" ng-click="removeMedia(media)"><i class="fa fa-times"></i></a>
+                                                                                </div>
+                                                                            </div>
+                                                                        </div>
+                                                                        <div class="caption">
+                                                                            <p>
+                                                                                <a href="" class="btn btn-default btn-xs" ng-click="setDefaultMedia(media)" ng-disabled="media._id == current_user.mediaProfil._id"><i class="fa fa-image"></i> Photo Profil </a>
+                                                                           <br/>
+                                                                            </p>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-lg-12">
+                                                    <div class="test1">
+                                                        <h3>Securites</h3>
+                                                    </div>
+                                                </div>
+                                                <div class="col-lg-12">
+                                                    <div class="test2">
+                                                            <form class="form-horizontal form-label-left" name="formPassowrd" novalidate>
+
+                                                                <div class="form-group">
+                                                                    <label class="control-label col-md-2 col-sm-2 col-xs-12">Ancien mot de passe <span class="required">*</span></label>
+                                                                    <div class="col-md-4 col-sm-4 col-xs-12">
+                                                                        <input type="password" class="form-control" placeholder="*****" ng-keyup="getcurrentPassword()" ng-model="currentPassword" required>
+                                                                    </div>
+
+                                                                    <label class="control-label col-md-2 col-sm-2 col-xs-12">Nouveau mot de passe </label>
+                                                                    <div class="col-md-4 col-sm-4 col-xs-12">
+                                                                        <input type="password" class="form-control" placeholder="******" ng-model="newPassword" ng-keyup="getNewPassword()"  ng-disabled="!showNewPass" required>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="form-group">
+                                                                    <label class="col-md-6 col-sm-6 col-xs-12 text-center">
+                                                                        <small style="color: red;">{{messageErrorPassword}}</small>
+                                                                        <br>
+                                                                        <small>{{messageOkPassword}}</small>
+                                                                    </label>
+                                                                    <label class="control-label col-md-2 col-sm-2 col-xs-12">Confirmer nouveau mot de passe </label>
+                                                                    <div class="col-md-4  col-sm-4 col-xs-12">
+                                                                        <input type="password" class="form-control" placeholder="******" ng-keyup="getConfPassword()" ng-disabled="!showConfPass || !showNewPass" ng-model="confirmPassword" required>
+                                                                    </div>
+
+                                                                </div>
+                                                                <div class="ln_solid"></div>
+                                                                <div class="form-group">
+                                                                    <div class="col-md-3 col-sm-3 col-xs-12 col-md-offset-2">
+                                                                        <button type="submit" class="btn btn-warning btn-block" ng-click="updatePassword()" ng-disabled="formPassowrd.$invalid || !showRegisterPass"> Enregistrer</button>
+                                                                    </div>
+                                                                    <div class="col-md-3 col-sm-3 col-xs-12">
+
+                                                                        <button type="reset" class="btn btn-info btn-block" ng-click="deselectPass()" > Annuler</button>
+                                                                    </div>
+                                                                    <div class="col-md-9 col-sm-9 col-xs-12 col-md-offset-3">
+
+
+                                                                    </div>
+                                                                </div>
+                                                            </form>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-default" data-dismiss="modal"> Annuler</button>
+                                    <button type="button" class="btn btn-primary">Sauvgarder</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <br>
+                    <!-- start skills -->
+                    <ul class="list-unstyled user_data">
+                        <li>
+                            <div class="col-md-12 col-sm-12 col-xs-12">
+                                <div class="col-md-6 col-sm-6 col-xs-6">
+                                    <a ng-click="getDevis()" href="">
+                                        <strong>Mes annonces</strong>
+                                    </a>
+                                </div>
+                                <div class="col-md-6 col-sm-6 col-xs-6">
+                                    <span  class="badge bg-default pull-right" >{{current_user.devis.length}}</span>
+                                </div>
+                                <hr>
+                            </div>
+                        </li>
+                        <li>
+                            <div class="col-md-12 col-sm-12 col-xs-12">
+                                <div class="col-md-6 col-sm-6 col-xs-6">
+                                    <a>
+                                        <strong>Devis en attente</strong>
+                                    </a>
+                                </div>
+                                <div class="col-md-6 col-sm-6 col-xs-6">
+                                    <span  class="badge bg-default pull-right" >{{nbrDevisWaiting}}</span>
+                                </div>
+                                <hr>
+                            </div>
+                        </li>
+                        <li>
+                            <div class="col-md-12 col-sm-12 col-xs-12">
+                                <div class="col-md-6 col-sm-6 col-xs-6">
+                                    <a  ng-click="getAvis()" href="">
+                                        <strong>Mes avis</strong>
+                                    </a>
+                                </div>
+                                <div class="col-md-6 col-sm-6 col-xs-6">
+                                    <span  class="badge bg-default pull-right" >{{current_user.avis.length}}</span>
+                                </div>
+                                <hr>
+                            </div>
+                        </li>
+                        <li>
+                            <div class="col-md-12 col-sm-12 col-xs-12">
+                                <div class="col-md-6 col-sm-6 col-xs-6">
+                                    <a>
+                                        <strong>Avis en attente</strong>
+                                    </a>
+                                </div>
+                                <div class="col-md-6 col-sm-6 col-xs-6">
+                                    <span  class="badge bg-default pull-right" >{{nbrAvisWaiting}}</span>
+                                </div>
+                                <hr>
+                            </div>
+                        </li>
+                    </ul>
+                    <!-- end of skills -->
+                    <div class="col-md-12 col-sm-12 col-xs-12 animated fadeInDown" ng-show="showPrestataire">
+                        <div class="well profile_view">
+                            <div class="col-sm-12">
+                                <div class="left col-xs-7">
+                                    <p><i ng-show="true">{{prestataire.email}}</i> {{prestataire.noteGlobal | number:0}} {{prestataire.firstname}}  {{prestataire.lastname}}</p>
+                                    <ul class="list-unstyled">
+                                        <li><i class="fa fa-mobile-phone"></i> {{prestataire.telDomi}} </li>
+                                        <li><i class="fa fa-phone"></i> {{prestataire.telMobil}} </li>
+                                    </ul>
+                                </div>
+                                <div class="right col-xs-5 text-center">
+                                    <img src="{{prestataire.mediaProfil.urlMedia}}" alt="" class="img-circle img-responsive">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-9 col-sm-9 col-xs-12">
+                    <div class="profile_title">
+                        <div class="col-md-6">
+                            <h2>Paramètres du compte</h2>
+                        </div>
+                        <div class="col-md-6">
+                            <div id="reportrange" class="pull-right" style="margin-top: 5px; background: #fff; cursor: pointer; padding: 5px 10px; border: 1px solid #E6E9ED">
+                                <i class="glyphicon glyphicon-calendar fa fa-calendar"></i>
+                                <span>{{current_user.created_at | date : 'MMMM'}} {{current_user.created_at | date : 'dd' }}, {{current_user.created_at | date : 'yyyy' }}</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-12 col-sm-12 col-xs-12" ng-controller="notificationUserCtrl">
+                        <h3>{{current_user.notifications.length}} Notifications <a href="" ng-if="current_user.notifications.length > 0" ng-click="clearAllNotif()"><small class="badge bg-default"><i class="fa fa-trash-o" ></i></small></a></h3>
+                        <ul class="to_do">
+                            <li ng-repeat="n in current_user.notifications">
+                                <p>
+                                <div class="icheckbox_flat-green" style="position: relative;">
+                                    <a href="" class="btn btn-danger btn-xs" ng-click="deleteNotification(n)"><i class="fa fa-trash-o" ></i></a>
+                                </div>
+                                {{n.message}}
+                                </p>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="clear"></div>
+                    <div class="col-md-12 col-sm-12 col-xs-12">
+                        <div class="col-md-6">
+                            <form class="form-inline">
+                                <div class="form-group">
+                                    <label>Show</label>
+                                    <select class="form-control input-sm" ng-model="entries">
+                                        <option value="5" selected>5</option>
+                                        <option value="10">10</option>
+                                        <option value="25">25</option>
+                                        <option value="50">50</option>
+                                        <option value="100">100</option>
+                                    </select>
+                                    entries
+                                </div>
+                            </form>
+                        </div>
+                        <div class="col-md-6 " >
+                            <form class="form-inline">
+                                <div class="form-group pull-right">
+                                    <label for="ex3">Search all columns:</label>
+                                    <input type="text" id="ex3" class="form-contro input-sml" placeholder=" " ng-model="searchTxt">
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                    <div class="clear"></div>
+                    <div class="col-md-12 col-sm-12 col-xs-12" ng-show="showDevis">
+                        <h3 class="green" align="center"><i class="fa fa-signal"></i> Mes Devis</h3>
+                        <div class="col-md-12 col-sm-12 col-xs-12">
+                            <div class="col-md-2">
+                            </div>
+                            <div class="col-md-4">
+                                <form class="form-inline">
+                                    <div class="form-group">
+                                        <label >Etat</label>
+                                        <select class="form-control input-sm" ng-model="entriesState">
+                                            <option value="waiting" >En Cours</option>
+                                            <option value="confirm" >Confirmer</option>
+                                        </select>
+                                        entries
+                                    </div>
+                                </form>
+                            </div>
+                            <div class="col-md-4">
+                                <form class="form-inline">
+                                    <div class="form-group">
+                                        <label >Type</label>
+                                        <select class="form-control input-sm" ng-model="entriesType">
+                                            <option value="emergency">Urgence</option>
+                                            <option value="normal">Normal</option>
+                                        </select>
+                                        entries
+                                    </div>
+                                </form>
+                            </div>
+                            <div class="col-md-2">
+                            </div>
+                        </div>
+                        <div class="clear"></div>
+                        <table class="table table-striped projects" ng-show="current_user.devis.length > 0">
+                            <thead>
+                            <tr>
+                                <th style="width: 5%">
+                                    <button class="btn btn-default btn-xs"><span class="glyphicon glyphicon-refresh"></span></button>
+                                </th>
+                                <th style="width: 25%">Contenu</th>
+                                <th style="width: 20%">Date Ajout</th>
+                                <th style="width: 20%">Etat</th>
+                                <th style="width: 20%">Adresse</th>
+                                <th style="width: 10%">Offre</th>
+                            </tr>
+                            </thead>
+                            <tbody >
+                            <tr ng-repeat="d in current_user.devis | filter:entriesType  | filter:entriesState  | filter:searchTxt | limitTo:entries" ng-class="isConfirmDevis(d.state[0])">
+                                <td>
+                                    <a href="/{{d._id}}" class="btn btn-primary btn-xs active"><i class="fa fa-folder"></i> Voir</a>
+                                    <br/>
+                                    <a href="" ng-if="d.state[0] == 'waiting'" class="btn btn-danger btn-xs" ng-click="removeDevis(d._id)"><i class="fa fa-trash-o" ></i> Delete</a>
+                                    <a href="" ng-if="d.prestataireId != null" class="btn btn-primary btn-xs active" ng-click="getPrestataire(d.prestataireId)"><i class="fa fa-user"></i> Prestataire</a>
+                                </td>
+                                <td>
+                                    <span>{{d.title}}</span>
+                                    <p ng-bind="d.contents">
+                                    </p>
+                                    <ul class="list-inline">
+                                        <li ng-repeat="media in d.medias">
+                                            <img src="{{media.urlMedia}}" class="avatar" alt="Avatar">
+                                        </li>
+
+                                    </ul>
+                                </td>
+                                <td> {{d.created_at | date : format : timezone}}</td>
+                                <td>
+                                    <span class="label label-warning" ng-if="d.state[0] == 'waiting'" ng-bind="'En Cours'">En Cours</span>
+                                    <span class="label label-success" ng-if="d.state[0] == 'confirm'" ng-bind="'Confirmer'">Confirmer</span>
+                                    <br>
+                                    <span>contact :<small>{{d.typeContact[0]}} </small></span>
+                                    <br>
+                                    <span>type :<small>{{d.type[0]}} </small></span>
+                                </td>
+                                <td>
+                                    <span><small>Cp : </small> {{d.adresseDevis.codePostal}}</span>
+                                    <br>
+                                    <span><small>Lieu : </small>{{d.adresseDevis.lieu}}</span>
+
+                                </td >
+                                <td>
+                                    <a href="" >  <strong> {{d.offres.length}} </strong> Offre(s)</a>
+                                    <hr/>
+                                </td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="col-md-12 col-sm-12 col-xs-12" ng-show="showAvis">
+                        <h3 class="green" align="center"><i class="fa fa-signal"></i> Mes Avis</h3>
+                        <div class="col-md-12 col-sm-12 col-xs-12">
+                            <div class="col-md-2">
+                            </div>
+                            <div class="col-md-4">
+                                <form class="form-inline">
+                                    <div class="form-group">
+                                        <label >Etat</label>
+                                        <select class="form-control input-sm" ng-model="entriesStateAvis">
+                                            <option value="Waiting" >En Cours</option>
+                                            <option value="Confirm" >Confirmer</option>
+                                        </select>
+                                        entries
+                                    </div>
+                                </form>
+                            </div>
+                            <div class="col-md-4">
+                                <form class="form-inline">
+                                    <div class="form-group">
+                                        <label >Type</label>
+                                        <select class="form-control input-sm" ng-model="entriesTypeAvis">
+                                            <option value="emergency">Urgence</option>
+                                            <option value="normal">Normal</option>
+                                        </select>
+                                        entries
+                                    </div>
+                                </form>
+                            </div>
+                            <div class="col-md-2">
+                            </div>
+                        </div>
+                        <div class="clear"></div>
+                        <table class="table table-striped projects" ng-show="current_user.avis.length > 0">
+                            <thead>
+                            <tr>
+                                <th style="width: 5%">Prestataire</th>
+                                <th style="width: 25%">Commentaire</th>
+                                <th style="width: 10%">Etat</th>
+                                <th style="width: 25%">Note</th>
+                                <th style="width: 35%"></th>
+                            </tr>
+                            </thead>
+                            <tbody >
+                            <tr ng-repeat="a in current_user.avis | filter:entriesTypeAvis  | filter:entriesStateAvis | filter:searchTxt | limitTo:entries" style="text-align: center;" ng-class="isConfirmAvis(a.state[0])">
+                                <td>
+                                    <a href="#" class="btn btn-primary btn-xs active" ng-click="getPrestataire(a.prestataireId)"><i class="fa fa-user"></i> Voir </a>
+                               </td>
+                                <td>
+                                    <span>Prestation : <small>{{a.devisClient.title}}</small><small ng-show="false">{{a.devisClient.type[0]}}</small></span>
+                                    <span>{{a.desc}}</span>
+                                    <br>
+                                    <small>{{a.created_at | date : format : timezone}}</small>
+                                    <br>
+                                    <ul class="list-inline">
+                                            <img src="{{a.photo.urlMedia}}" class="avatar" alt="Avatar">
+                                    </ul>
+                                </td>
+                                <td>
+                                    <span class="label label-warning" ng-if="a.state[0] == 'Waiting'" ng-bind="'En Cours'"></span>
+                                    <span class="label label-success" ng-if="a.state[0] == 'Confirm'"  ng-bind="'Confirmer'"></span>
+                                </td>
+                                <td>
+                                    <span ng-init="ratingNoteGeneral =a.noteGlobal">Note générale :</span>
+                                    <div  notegeneral-rating rating-value="ratingNoteGeneral" data-max="5"></div>
+                                </td>
+                                <td>
+                                    <table  border="0px" style="text-align: center; background-color: transparent;">
+                                        <tr>
+                                            <td>
+                                                <span ng-init="ratingQualityServ =a.noteQualityServ">Qualité des travaux</span>
+                                                <div qualityservice-rating rating-value="ratingQualityServ" data-max="5"></div>
+                                            </td>
+                                            <td>
+                                                <span ng-init="ratingPriceServ =a.notePriceServ">Prix des travaux</span>
+                                                <div priceservice-rating rating-value="ratingPriceServ" data-max="5"></div>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                <span ng-init="ratingRespectPeriod =a.noteRespectPeriod">Respect des délais</span>
+                                                <div respectperiod-rating rating-value="ratingRespectPeriod" data-max="5"></div>
+                                            </td>
+                                            <td>
+                                                <span ng-init="ratingContact =a.noteContact">Qualité de contact</span>
+                                                <div contact-rating rating-value="ratingContact" data-max="5"></div>
+                                            </td>
+                                        </tr>
+                                    </table>
+                                </td >
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
